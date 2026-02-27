@@ -60,9 +60,9 @@
         /* Ajustes de largura Form */
         .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
         .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
-        .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 130px; }
-        .fg-sup-sala { width: 55px; }
-        .fg-sup-alunos { width: 75px; }
+        .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 140px; }
+        .fg-sup-sala { width: 100px; }
+        .fg-sup-alunos { width: 110px; }
 
         label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
         input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
@@ -75,11 +75,15 @@
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.75rem; }
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
         
+        /* Espaçamento entre botões de ação */
+        .btn-acao { background: none; border: none; cursor: pointer; font-size: 1.1rem; margin: 0 10px; transition: 0.2s; }
+        .btn-acao:hover { transform: scale(1.2); }
+
         .linha-concluida { background-color: #fff1f2 !important; }
         .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px;}
 
         #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 420px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
@@ -106,20 +110,20 @@
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
         <div class="form-row">
-            <div class="form-group fg-cur-nome"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
-            <div class="form-group fg-cur-tipo"><label>TIPO *</label>
+            <div class="form-group fg-cur-nome"><label>Nome do curso *</label><input type="text" id="curNome"></div>
+            <div class="form-group fg-cur-tipo"><label>Tipo de curso *</label>
                 <select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select>
             </div>
-            <div class="form-group fg-cur-carga"><label>CARGA *</label><input type="text" id="curCarga"></div>
-            <div class="form-group fg-cur-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-data" style="width: 80px;"><label>Nº PART. *</label><input type="number" id="curPart"></div>
+            <div class="form-group fg-cur-carga"><label>Carga horária *</label><input type="text" id="curCarga"></div>
+            <div class="form-group fg-cur-data"><label>Data de início *</label><input type="date" id="curInicio"></div>
+            <div class="form-group fg-cur-data" style="width: 120px;"><label>Nº de participantes *</label><input type="number" id="curPart"></div>
             <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr>
+                    <tr><th>Nº</th><th style="text-align:left">Curso</th><th>Tipo</th><th>Carga</th><th>Início</th><th>Término</th><th>Participantes</th><th>Concluintes</th><th>Ações</th></tr>
                 </thead>
                 <tbody id="listaCursos"></tbody>
             </table>
@@ -130,24 +134,24 @@
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
         <div class="form-row">
-            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome"></div>
-            <div class="form-group fg-sup-grau"><label>GRAU *</label>
-                <select id="supGrau"><option value="">Selecione...</option><option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option></select>
+            <div class="form-group fg-sup-nome"><label>Nome do curso *</label><input type="text" id="supNome"></div>
+            <div class="form-group fg-sup-grau"><label>Grau acadêmico *</label>
+                <select id="supGrau"><option value="">Selecione...</option><option>Tecnólogo</option><option>Graduação</option><option>Pós-Graduação</option><option>Mestrado</option><option>Doutorado</option></select>
             </div>
-            <div class="form-group fg-sup-inst"><label>INSTITUIÇÃO *</label><input type="text" id="supInst"></div>
-            <div class="form-group fg-sup-per"><label>PERÍODO *</label>
+            <div class="form-group fg-sup-inst"><label>Instituição de ensino *</label><input type="text" id="supInst"></div>
+            <div class="form-group fg-sup-per"><label>Período *</label>
                 <select id="supPer"><option value="">Selecione...</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
             </div>
-            <div class="form-group fg-sup-sala"><label>SL *</label><input type="text" id="supSala" maxlength="1"></div>
-            <div class="form-group fg-sup-alunos"><label>AL *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
-            <div class="form-group fg-sup-data"><label>INÍCIO *</label><input type="date" id="supInicio"></div>
+            <div class="form-group fg-sup-sala"><label>Número da sala</label><input type="text" id="supSala"></div>
+            <div class="form-group fg-sup-alunos"><label>Número de alunos</label><input type="number" id="supAlunos"></div>
+            <div class="form-group fg-sup-data"><label>Data de início *</label><input type="date" id="supInicio"></div>
             <button class="btn-std btn-azul" style="height:38px;" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>GRAU</th><th>INSTITUIÇÃO</th><th>PER.</th><th>SL</th><th>AL</th><th>INÍCIO</th><th>TÉRMINO</th><th>AÇÕES</th></tr>
+                    <tr><th>Nº</th><th style="text-align:left">Curso</th><th>Grau Acadêmico</th><th>Instituição</th><th>Período</th><th>Sala</th><th>Alunos</th><th>Início</th><th>Término</th><th>Ações</th></tr>
                 </thead>
                 <tbody id="listaSuperior"></tbody>
             </table>
@@ -212,14 +216,14 @@
             db[tipo].forEach((c, i) => {
                 if(tipo === 'cursos') {
                     tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
-                        <td><button onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
-                        <button onclick="remover(${i}, 'cursos')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                        <td><button class="btn-acao" onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
+                        <button class="btn-acao" onclick="remover(${i}, 'cursos')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 } else {
                     tbody.innerHTML += `<tr>
                         <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
-                        <td><button onclick="abrirEdicao('superior', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
-                        <button onclick="remover(${i}, 'superior')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
+                        <td><button class="btn-acao" onclick="abrirEdicao('superior', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
+                        <button class="btn-acao" onclick="remover(${i}, 'superior')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 }
             });
         }
@@ -227,9 +231,30 @@
         async function salvarNovo(tipo) {
             let item = {};
             if(tipo === 'cursos') {
-                item = { nome: document.getElementById('curNome').value.toUpperCase(), tipo: document.getElementById('curTipo').value, carga: document.getElementById('curCarga').value, inicio: document.getElementById('curInicio').value, part: document.getElementById('curPart').value, termino: "", conc: "", concluido: false };
+                const n = document.getElementById('curNome').value.trim();
+                const t = document.getElementById('curTipo').value;
+                const c = document.getElementById('curCarga').value.trim();
+                const i = document.getElementById('curInicio').value;
+                const p = document.getElementById('curPart').value;
+
+                // Validação: Garante que todos os dados foram preenchidos
+                if(!n || !t || !c || !i || !p) {
+                    alert("Atenção: Todos os campos da seção de Cursos são obrigatórios!");
+                    return;
+                }
+
+                item = { nome: n.toUpperCase(), tipo: t, carga: c, inicio: i, part: p, termino: "", conc: "", concluido: false };
             } else {
-                item = { nome: document.getElementById('supNome').value.toUpperCase(), grau: document.getElementById('supGrau').value, inst: document.getElementById('supInst').value.toUpperCase(), per: document.getElementById('supPer').value, sala: document.getElementById('supSala').value, alunos: document.getElementById('supAlunos').value, inicio: document.getElementById('supInicio').value, termino: "" };
+                item = { 
+                    nome: document.getElementById('supNome').value.toUpperCase(), 
+                    grau: document.getElementById('supGrau').value, 
+                    inst: document.getElementById('supInst').value.toUpperCase(), 
+                    per: document.getElementById('supPer').value, 
+                    sala: document.getElementById('supSala').value, 
+                    alunos: document.getElementById('supAlunos').value, 
+                    inicio: document.getElementById('supInicio').value, 
+                    termino: "" 
+                };
             }
             if(!item.nome || !item.inicio) return alert("Preencha ao menos Nome e Data!");
             db[tipo].push(item);
@@ -245,18 +270,27 @@
             const campos = document.getElementById('camposEdicao');
             
             if(tipo === 'cursos') {
-                campos.innerHTML = `<div style="background:#f9f9f9; padding:10px; border-radius:8px; display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                // Trazendo informações existentes do curso para o usuário
+                campos.innerHTML = `
+                <div style="background:#f9f9f9; padding:10px; border-radius:8px; display:flex; align-items:center; gap:10px; margin-bottom:15px; border: 1px solid #ddd;">
                     <input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:18px; height:18px;">
-                    <label style="margin-bottom:0">MARCAR COMO CONCLUÍDO</label>
+                    <label style="margin-bottom:0">Curso Concluído</label>
                 </div>
-                <div style="margin-bottom:10px;"><label>DATA TÉRMINO REAL *</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
-                <div><label>QTD CONCLUINTES *</label><input type="number" id="mQtd" value="${item.conc || ''}"></div>`;
+                <div style="margin-bottom:10px;">
+                    <label>Data de término real *</label>
+                    <input type="date" id="mTermino" value="${item.termino || ''}">
+                </div>
+                <div>
+                    <label>Quantidade de concluintes *</label>
+                    <input type="number" id="mQtd" value="${item.conc || ''}">
+                </div>
+                <p style="font-size: 0.65rem; color: #666; margin-top: 15px;">* Nota: Para salvar alterações em Cursos, o checkbox 'Curso Concluído' deve estar marcado.</p>`;
             } else {
                 campos.innerHTML = `<div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>SALA</label><input type="text" id="mSala" value="${item.sala}" maxlength="1"></div>
-                    <div style="flex:1;"><label>Nº ALUNOS</label><input type="number" id="mAlunos" value="${item.alunos}"></div>
+                    <div style="flex:1;"><label>Número da sala</label><input type="text" id="mSala" value="${item.sala || ''}"></div>
+                    <div style="flex:1;"><label>Número de alunos</label><input type="number" id="mAlunos" value="${item.alunos || ''}"></div>
                 </div>
-                <div><label>DATA TÉRMINO (FORMATURA/FIM SEMESTRE)</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
+                <div><label>Data de término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
             }
             document.getElementById('btnConfirmarModal').onclick = confirmEdicao;
             document.getElementById('modalGeral').style.display = 'flex';
@@ -271,13 +305,26 @@
                 const dataT = document.getElementById('mTermino').value;
                 const qtdC = document.getElementById('mQtd').value;
 
-                if(isConc && (!dataT || !qtdC)) {
-                    alert("Para concluir o curso, preencha a Data de Término e a Qtd de Concluintes!");
+                // Regra 1: Não permite editar/salvar sem marcar o checkbox
+                if(!isConc) {
+                    alert("A edição de cursos só é permitida mediante a marcação do campo 'Curso Concluído'.");
                     return;
                 }
+
+                // Regra 2: Não permite salvar quantidade de concluintes sem marcar a caixa (Reforço)
+                if(qtdC > 0 && !isConc) {
+                    alert("Erro: Você não pode definir concluintes sem marcar a caixa 'Curso Concluído'.");
+                    return;
+                }
+
+                if(!dataT || !qtdC) {
+                    alert("Erro: Informe a Data de Término e a Quantidade de Concluintes para salvar!");
+                    return;
+                }
+
                 db.cursos[i].concluido = isConc;
                 db.cursos[i].termino = dataT;
-                db.cursos[i].conc = isConc ? qtdC : "";
+                db.cursos[i].conc = qtdC;
             } else {
                 db.superior[i].sala = document.getElementById('mSala').value;
                 db.superior[i].alunos = document.getElementById('mAlunos').value;
@@ -287,8 +334,9 @@
             await sincronizar();
         }
 
-        async function remover(i, tipo) { if(confirm("Excluir?")) { db[tipo].splice(i,1); await sincronizar(); } }
+        async function remover(i, tipo) { if(confirm("Deseja realmente excluir este registro?")) { db[tipo].splice(i,1); await sincronizar(); } }
         function fecharModal() { document.getElementById('modalGeral').style.display = 'none'; }
+        
         function limparForm(tipo) { 
             const prefixo = tipo === 'cursos' ? 'cur' : 'sup';
             document.querySelectorAll(`[id^="${prefixo}"]`).forEach(el => el.value = "");
@@ -301,7 +349,7 @@
             try {
                 await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', cursos: db.cursos, superior: db.superior }) });
                 atualizarTabela('cursos'); atualizarTabela('superior');
-            } catch (e) { alert("Erro ao salvar no Google."); }
+            } catch (e) { alert("Erro ao sincronizar com o Google Planilhas."); }
             document.getElementById('loading').style.display = 'none';
         }
     </script>
