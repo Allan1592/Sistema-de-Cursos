@@ -12,29 +12,15 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Segoe UI', sans-serif; background-color: var(--cinza-claro); 
-            display: flex; flex-direction: column; align-items: center; 
-            min-height: 100vh; overflow-x: hidden; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--cinza-claro); display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
         #main-header { text-align: center; padding: 20px 10px; }
         .logo-placeholder { font-size: 3rem; margin-bottom: 5px; display: block; }
-        h2 { color: var(--dark); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { color: var(--dark); font-size: 1.8rem; text-transform: uppercase; }
         .subtitle { color: #666; font-size: 0.9rem; font-weight: 500; }
 
-        #main-menu { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-            gap: 15px; width: 95%; max-width: 900px; margin-top: 10px;
-        }
-
-        .card-btn { 
-            height: 130px; border: none; border-radius: 12px; color: white; 
-            font-weight: bold; font-size: 1rem; cursor: pointer; 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; 
-        }
+        #main-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; width: 95%; max-width: 900px; margin-top: 10px; }
+        .card-btn { height: 130px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
         .card-btn i { font-size: 2rem; margin-bottom: 10px; }
         .card-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
@@ -43,51 +29,30 @@
         .btn-azul { background: var(--azul); }
         .btn-roxo { background: var(--roxo); }
 
-        .content-card { 
-            width: 98%; max-width: 1350px; background: white; border-radius: 12px; 
-            padding: 20px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-            margin-top: 15px; margin-bottom: 30px;
-        }
+        .content-card { width: 98%; max-width: 1350px; background: white; border-radius: 12px; padding: 20px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-top: 15px; margin-bottom: 30px; }
         .active { display: flex; flex-direction: column; }
-
-        .btn-voltar { 
-            background: #666; color: white; border: none; padding: 8px 15px; 
-            border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start;
-        }
+        .btn-voltar { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start; }
 
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
-        
-        /* Ajustes de largura Form */
-        .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
-        .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
-        .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 130px; }
-        .fg-sup-sala { width: 55px; }
-        .fg-sup-alunos { width: 75px; }
-
         label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
-        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
-
-        .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; }
-        .btn-limpar { background: #95a5a6; }
-
-        .table-wrapper { width: 100%; max-height: 440px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.75rem; }
-        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; }
         
-        .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px;}
+        .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; }
+        .table-wrapper { width: 100%; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        thead th { position: sticky; top: 0; background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; font-size: 0.75rem; }
+        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
 
-        #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-
-        footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
-        #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
+        #modalGeral, #modalGestaoAlunos { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 400px; max-height: 90vh; overflow-y: auto; }
+        
+        #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:5000; justify-content:center; align-items:center; flex-direction:column; }
+        .badge-conc { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; margin-left: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="loading"><i class="fa fa-spinner fa-spin fa-2x" style="color:var(--dark)"></i><p style="margin-top:10px; font-size:0.9rem; font-weight:bold;">PROCESSANDO...</p></div>
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-2x"></i><p>PROCESSANDO...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -103,93 +68,97 @@
     </div>
 
     <div id="cursos" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
-        <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
+        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
+        <h3 style="color:var(--verde); margin-bottom:10px;">Cursos Profissionalizantes / Outros</h3>
         <div class="form-row">
-            <div class="form-group fg-cur-nome"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
-            <div class="form-group fg-cur-tipo"><label>TIPO *</label>
-                <select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select>
-            </div>
-            <div class="form-group fg-cur-carga"><label>CARGA *</label><input type="text" id="curCarga"></div>
-            <div class="form-group fg-cur-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-data" style="width: 80px;"><label>Nº PART. *</label><input type="number" id="curPart"></div>
-            <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
-            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
+            <div style="flex:2;"><label>CURSO</label><input type="text" id="curNome"></div>
+            <div style="width:150px;"><label>TIPO</label><select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option></select></div>
+            <div style="width:100px;"><label>CARGA</label><input type="text" id="curCarga"></div>
+            <div style="width:140px;"><label>INÍCIO</label><input type="date" id="curIni"></div>
+            <div style="width:80px;"><label>PART.</label><input type="number" id="curPart"></div>
+            <button class="btn-std btn-verde" onclick="salvarNovo('cursos')">Salvar</button>
         </div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr>
-                </thead>
-                <tbody id="listaCursos"></tbody>
-            </table>
-        </div>
+        <div class="table-wrapper"><table><thead><tr><th>Nº</th><th>CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr></thead><tbody id="listaCursos"></tbody></table></div>
     </div>
 
     <div id="superior" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
-        <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
+        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
+        <h3 style="color:var(--azul); margin-bottom:10px;">Ensino Superior</h3>
         <div class="form-row">
-            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome"></div>
-            <div class="form-group fg-sup-grau"><label>GRAU *</label>
-                <select id="supGrau"><option value="">Selecione...</option><option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option></select>
-            </div>
-            <div class="form-group fg-sup-inst"><label>INSTITUIÇÃO *</label><input type="text" id="supInst"></div>
-            <div class="form-group fg-sup-per"><label>PERÍODO *</label>
-                <select id="supPer"><option value="">Selecione...</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
-            </div>
-            <div class="form-group fg-sup-sala"><label>SL *</label><input type="text" id="supSala" maxlength="1"></div>
-            <div class="form-group fg-sup-alunos"><label>AL *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
-            <div class="form-group fg-sup-data"><label>INÍCIO *</label><input type="date" id="supInicio"></div>
-            <button class="btn-std btn-azul" style="height:38px;" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
-            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
+            <div style="flex:2;"><label>NOME DO CURSO</label><input type="text" id="supNome"></div>
+            <div style="width:120px;"><label>GRAU</label><select id="supGrau"><option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option></select></div>
+            <div style="flex:1;"><label>INSTITUIÇÃO</label><input type="text" id="supInst"></div>
+            <div style="width:110px;"><label>PERÍODO</label><select id="supPer"><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select></div>
+            <div style="width:50px;"><label>SL</label><input type="text" id="supSala" maxlength="1"></div>
+            <div style="width:60px;"><label>AL</label><input type="number" id="supAlunos"></div>
+            <div style="width:140px;"><label>INÍCIO</label><input type="date" id="supIni"></div>
+            <button class="btn-std btn-azul" onclick="salvarNovo('superior')">Salvar</button>
         </div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>GRAU</th><th>INSTITUIÇÃO</th><th>PER.</th><th>SL</th><th>AL</th><th>INÍCIO</th><th>TÉRMINO</th><th>AÇÕES</th></tr>
-                </thead>
-                <tbody id="listaSuperior"></tbody>
-            </table>
-        </div>
+        <div class="table-wrapper"><table><thead><tr><th>Nº</th><th>CURSO</th><th>GRAU</th><th>INSTITUIÇÃO</th><th>PER.</th><th>SL</th><th>AL</th><th>INÍCIO</th><th>TÉRMINO</th><th>AÇÕES</th></tr></thead><tbody id="listaSuperior"></tbody></table></div>
     </div>
 
-    <div id="modalGeral">
-        <div class="modal-content">
-            <h4 id="modalTitulo" style="margin-bottom:15px; border-bottom: 2px solid var(--dark); padding-bottom:5px;">Editar</h4>
-            <input type="hidden" id="editIdx"><input type="hidden" id="editTipo">
-            <div id="camposEdicao"></div>
-            <div style="display:flex; gap:10px; margin-top:20px;">
-                <button class="btn-std" id="btnConfirmarModal" style="flex:1; background:var(--verde)">Confirmar</button>
-                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
+    <div id="regular" class="content-card">
+        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:15px;">
+            <h3 style="color:var(--laranja);">Ensino Regular - Salas</h3>
+            <button class="btn-std" style="background:var(--dark);" onclick="abrirGestaoAlunos()"><i class="fa fa-users"></i> Gestão de Alunos</button>
+        </div>
+        <div class="form-row">
+            <div style="flex:2;"><label>GRADE (NOME DA SALA)</label><input type="text" id="regGrade"></div>
+            <div style="width:150px;"><label>TIPO</label><select id="regTipo"><option>Alfabetização</option><option>Fundamental Final</option><option>Ensino Médio</option></select></div>
+            <div style="width:120px;"><label>PERÍODO</label><select id="regPer"><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select></div>
+            <div style="width:80px;"><label>SEM.</label><select id="regSem"><option>1º</option><option>2º</option></select></div>
+            <div style="width:50px;"><label>SL</label><input type="text" id="regSala" maxlength="1"></div>
+            <div style="width:130px;"><label>INÍCIO</label><input type="date" id="regIni"></div>
+            <div style="width:130px;"><label>TÉRMINO</label><input type="date" id="regFim"></div>
+            <button class="btn-std btn-laranja" onclick="salvarNovo('regular')">Salvar</button>
+        </div>
+        <div class="table-wrapper"><table><thead><tr><th>GRADE</th><th>TIPO</th><th>PER.</th><th>SEM.</th><th>SL</th><th>TOTAL</th><th>MATR.</th><th>EXCL.</th><th>AÇÕES</th></tr></thead><tbody id="listaSalas"></tbody></table></div>
+    </div>
+
+    <div id="modalGeral"><div class="modal-content"><h4 id="mTit"></h4><input type="hidden" id="mIdx"><input type="hidden" id="mTipo"><div id="mCampos"></div><div style="display:flex; gap:10px; margin-top:15px;"><button class="btn-std btn-verde" style="flex:1" onclick="confirmarEdicao()">Confirmar</button><button class="btn-std" style="flex:1; background:#666" onclick="fecharModal()">Sair</button></div></div></div>
+
+    <div id="modalGestaoAlunos">
+        <div class="modal-content" style="width:95%; max-width:1000px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:2px solid var(--dark); padding-bottom:10px;">
+                <h3>Gestão de Alunos</h3>
+                <button class="btn-std" style="background:var(--vermelho)" onclick="fecharGestaoAlunos()">Fechar</button>
             </div>
+            <div style="background:#f9f9f9; padding:15px; border-radius:8px; margin-bottom:20px; border:1px dashed #ccc;">
+                <label>COLE DADOS DO EXCEL (Matrícula | Nome | Grade | Série)</label>
+                <textarea id="txtExcel" style="height:60px; margin:5px 0;" placeholder="Cole as colunas aqui..."></textarea>
+                <button class="btn-std btn-verde" onclick="importarExcel()">Processar Lote</button>
+            </div>
+            <div class="form-row">
+                <div style="width:100px;"><label>MATRÍCULA</label><input type="text" id="alMat"></div>
+                <div style="flex:1;"><label>NOME</label><input type="text" id="alNome"></div>
+                <div style="width:180px;"><label>SALA (GRADE)</label><select id="alGrade"></select></div>
+                <div style="width:80px;"><label>SÉRIE</label><select id="alSerie"><option>1º</option><option>2º</option><option>3º</option><option>4º</option><option>5º</option><option>6º</option><option>7º</option><option>8º</option><option>9º</option></select></div>
+                <div style="width:130px;"><label>DATA INÍCIO</label><input type="date" id="alIni"></div>
+                <button class="btn-std btn-azul" onclick="salvarAlunoManual()">Adicionar</button>
+            </div>
+            <div class="table-wrapper"><table><thead><tr><th>MATRÍCULA</th><th>NOME</th><th>GRADE</th><th>SÉRIE</th><th>INÍCIO</th><th>TÉRMINO</th><th>AÇÕES</th></tr></thead><tbody id="listaAlunos"></tbody></table></div>
         </div>
     </div>
 
     <footer>Idealizado por: <b>Allan Ramos | Policial Penal | CPP II de Bauru</b></footer>
 
     <script>
-        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyIGkx30aKhlB1xMkHsKNL_yd9i3zE3D3KxH1jr_RWruxyNHT_DwTIVCE2T95AzBqsc0w/exec"; 
-        let db = { cursos: [], superior: [] };
+        const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw_uZ8-aSjr0zmU5yfynA4He3oZ0E-hluKw1zg-kJCirAmSUN6xMFlOwwOEJVvBECQ2XQ/exec";
+        let db = { cursos: [], superior: [], regular: [], alunos: [] };
 
-        async function abrir(id) { 
+        async function abrir(id) {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('main-header').style.display = 'none';
             document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); 
+            document.getElementById(id).classList.add('active');
             await carregarDados();
         }
 
-        function voltarAoMenu() { 
-            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active')); 
+        function voltarAoMenu() {
+            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
             document.getElementById('main-menu').style.display = 'grid';
             document.getElementById('main-header').style.display = 'block';
-        }
-
-        function tratarData(d) {
-            if(!d || d === "") return '---';
-            let limpa = d.split('T')[0]; 
-            return limpa.split('-').reverse().join('/');
         }
 
         async function carregarDados() {
@@ -197,113 +166,93 @@
             try {
                 const res = await fetch(URL_SCRIPT);
                 const data = await res.json();
-                db.cursos = data.cursos || [];
-                db.superior = data.superior || [];
-                atualizarTabela('cursos');
-                atualizarTabela('superior');
-            } catch (e) { console.log("Erro ao carregar."); }
+                db = { cursos: data.cursos || [], superior: data.superior || [], regular: data.salas || [], alunos: data.alunos || [] };
+                atualizarTodasTabelas();
+            } catch(e) { console.error(e); }
             document.getElementById('loading').style.display = 'none';
         }
 
-        function atualizarTabela(tipo) {
-            const tbody = document.getElementById(tipo === 'cursos' ? 'listaCursos' : 'listaSuperior');
-            if(!tbody) return;
-            tbody.innerHTML = "";
-            db[tipo].forEach((c, i) => {
-                if(tipo === 'cursos') {
-                    tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
-                        <td><button onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
-                        <button onclick="remover(${i}, 'cursos')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
-                } else {
-                    tbody.innerHTML += `<tr>
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
-                        <td><button onclick="abrirEdicao('superior', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
-                        <button onclick="remover(${i}, 'superior')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
-                }
+        function atualizarTodasTabelas() {
+            renderCursos();
+            renderSuperior();
+            renderRegular();
+        }
+
+        function renderCursos() {
+            const tb = document.getElementById('listaCursos'); tb.innerHTML = "";
+            db.cursos.forEach((c, i) => {
+                tb.innerHTML += `<tr><td>${i+1}</td><td style="text-align:left">${c.nome}${c.concluido?'<span class="badge-conc">CONC</span>':''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${fmtData(c.inicio)}</td><td>${fmtData(c.termino)}</td><td>${c.part}</td><td>${c.conc||0}</td><td><button onclick="abrirEdicao('cursos',${i})" style="color:orange;border:none;background:none;cursor:pointer"><i class="fa fa-edit"></i></button></td></tr>`;
+            });
+        }
+
+        function renderSuperior() {
+            const tb = document.getElementById('listaSuperior'); tb.innerHTML = "";
+            db.superior.forEach((c, i) => {
+                tb.innerHTML += `<tr><td>${i+1}</td><td style="text-align:left">${c.nome}</td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td><td>${fmtData(c.inicio)}</td><td>${fmtData(c.termino)}</td><td><button onclick="abrirEdicao('superior',${i})" style="color:orange;border:none;background:none;cursor:pointer"><i class="fa fa-edit"></i></button></td></tr>`;
+            });
+        }
+
+        function renderRegular() {
+            const tb = document.getElementById('listaSalas'); tb.innerHTML = "";
+            db.regular.forEach((s, i) => {
+                const total = db.alunos.filter(a => a.grade === s.grade).length;
+                tb.innerHTML += `<tr><td style="text-align:left"><b>${s.grade}</b></td><td>${s.tipo}</td><td>${s.per}</td><td>${s.sem}</td><td>${s.sala}</td><td>${total}</td><td>0</td><td>0</td><td><button onclick="abrirEdicao('regular',${i})" style="color:orange;border:none;background:none;cursor:pointer"><i class="fa fa-edit"></i></button></td></tr>`;
             });
         }
 
         async function salvarNovo(tipo) {
             let item = {};
-            if(tipo === 'cursos') {
-                item = { nome: document.getElementById('curNome').value.toUpperCase(), tipo: document.getElementById('curTipo').value, carga: document.getElementById('curCarga').value, inicio: document.getElementById('curInicio').value, part: document.getElementById('curPart').value, termino: "", conc: "", concluido: false };
-            } else {
-                item = { nome: document.getElementById('supNome').value.toUpperCase(), grau: document.getElementById('supGrau').value, inst: document.getElementById('supInst').value.toUpperCase(), per: document.getElementById('supPer').value, sala: document.getElementById('supSala').value, alunos: document.getElementById('supAlunos').value, inicio: document.getElementById('supInicio').value, termino: "" };
-            }
-            if(!item.nome || !item.inicio) return alert("Preencha ao menos Nome e Data!");
-            db[tipo].push(item);
-            await sincronizar();
-            limparForm(tipo);
-        }
-
-        function abrirEdicao(tipo, i) {
-            const item = db[tipo][i];
-            document.getElementById('editIdx').value = i;
-            document.getElementById('editTipo').value = tipo;
-            document.getElementById('modalTitulo').innerText = "Editar: " + item.nome;
-            const campos = document.getElementById('camposEdicao');
+            if(tipo === 'cursos') item = { nome: val('curNome').toUpperCase(), tipo: val('curTipo'), carga: val('curCarga'), inicio: val('curIni'), part: val('curPart'), termino:"", conc:"", concluido: false };
+            if(tipo === 'superior') item = { nome: val('supNome').toUpperCase(), grau: val('supGrau'), inst: val('supInst').toUpperCase(), per: val('supPer'), sala: val('supSala'), alunos: val('supAlunos'), inicio: val('supIni'), termino:"" };
+            if(tipo === 'regular') item = { grade: val('regGrade').toUpperCase(), tipo: val('regTipo'), per: val('regPer'), sem: val('regSem'), sala: val('regSala'), inicio: val('regIni'), termino: val('regFim') };
             
-            if(tipo === 'cursos') {
-                campos.innerHTML = `<div style="background:#f9f9f9; padding:10px; border-radius:8px; display:flex; align-items:center; gap:10px; margin-bottom:15px;">
-                    <input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:18px; height:18px;">
-                    <label style="margin-bottom:0">MARCAR COMO CONCLUÍDO</label>
-                </div>
-                <div style="margin-bottom:10px;"><label>DATA TÉRMINO REAL *</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
-                <div><label>QTD CONCLUINTES *</label><input type="number" id="mQtd" value="${item.conc || ''}"></div>`;
-            } else {
-                campos.innerHTML = `<div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>SALA</label><input type="text" id="mSala" value="${item.sala}" maxlength="1"></div>
-                    <div style="flex:1;"><label>Nº ALUNOS</label><input type="number" id="mAlunos" value="${item.alunos}"></div>
-                </div>
-                <div><label>DATA TÉRMINO (FORMATURA/FIM SEMESTRE)</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
-            }
-            document.getElementById('btnConfirmarModal').onclick = confirmEdicao;
-            document.getElementById('modalGeral').style.display = 'flex';
-        }
-
-        async function confirmEdicao() {
-            const i = document.getElementById('editIdx').value;
-            const tipo = document.getElementById('editTipo').value;
-            
-            if(tipo === 'cursos') {
-                const isConc = document.getElementById('mConc').checked;
-                const dataT = document.getElementById('mTermino').value;
-                const qtdC = document.getElementById('mQtd').value;
-
-                if(isConc && (!dataT || !qtdC)) {
-                    alert("Para concluir o curso, preencha a Data de Término e a Qtd de Concluintes!");
-                    return;
-                }
-                db.cursos[i].concluido = isConc;
-                db.cursos[i].termino = dataT;
-                db.cursos[i].conc = isConc ? qtdC : "";
-            } else {
-                db.superior[i].sala = document.getElementById('mSala').value;
-                db.superior[i].alunos = document.getElementById('mAlunos').value;
-                db.superior[i].termino = document.getElementById('mTermino').value;
-            }
-            fecharModal();
+            db[tipo==='regular'?'regular':tipo].push(item);
             await sincronizar();
         }
 
-        async function remover(i, tipo) { if(confirm("Excluir?")) { db[tipo].splice(i,1); await sincronizar(); } }
-        function fecharModal() { document.getElementById('modalGeral').style.display = 'none'; }
-        function limparForm(tipo) { 
-            const prefixo = tipo === 'cursos' ? 'cur' : 'sup';
-            document.querySelectorAll(`[id^="${prefixo}"]`).forEach(el => el.value = "");
-            if(tipo==='cursos') document.getElementById('curTipo').value = "";
-            else { document.getElementById('supGrau').value = ""; document.getElementById('supPer').value = ""; }
+        function abrirGestaoAlunos() {
+            const sel = document.getElementById('alGrade');
+            sel.innerHTML = db.regular.map(s => `<option>${s.grade}</option>`).join('');
+            renderAlunos();
+            document.getElementById('modalGestaoAlunos').style.display = 'flex';
+        }
+
+        function fecharGestaoAlunos() { document.getElementById('modalGestaoAlunos').style.display = 'none'; renderRegular(); }
+
+        function renderAlunos() {
+            const tb = document.getElementById('listaAlunos'); tb.innerHTML = "";
+            db.alunos.forEach((a, i) => {
+                tb.innerHTML += `<tr><td>${a.matricula}</td><td style="text-align:left">${a.nome}</td><td>${a.grade}</td><td>${a.serie}</td><td>${fmtData(a.inicio)}</td><td>${fmtData(a.termino)}</td><td><button onclick="removerAluno(${i})" style="color:red;border:none;background:none;cursor:pointer"><i class="fa fa-trash"></i></button></td></tr>`;
+            });
+        }
+
+        function importarExcel() {
+            const txt = document.getElementById('txtExcel').value;
+            const linhas = txt.split('\n');
+            linhas.forEach(l => {
+                const c = l.split('\t');
+                if(c.length >= 4) db.alunos.push({ matricula: c[0].trim(), nome: c[1].trim().toUpperCase(), grade: c[2].trim().toUpperCase(), serie: c[3].trim(), inicio: "", termino: "" });
+            });
+            renderAlunos();
+            document.getElementById('txtExcel').value = "";
+        }
+
+        async function salvarAlunoManual() {
+            db.alunos.push({ matricula: val('alMat'), nome: val('alNome').toUpperCase(), grade: val('alGrade'), serie: val('alSerie'), inicio: val('alIni'), termino: "" });
+            renderAlunos();
+            await sincronizar();
         }
 
         async function sincronizar() {
             document.getElementById('loading').style.display = 'flex';
-            try {
-                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', cursos: db.cursos, superior: db.superior }) });
-                atualizarTabela('cursos'); atualizarTabela('superior');
-            } catch (e) { alert("Erro ao salvar no Google."); }
-            document.getElementById('loading').style.display = 'none';
+            const payload = { acao: 'salvarTudo', cursos: db.cursos, superior: db.superior, salas: db.regular, alunos: db.alunos };
+            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            await carregarDados();
         }
+
+        function fmtData(d) { if(!d) return "---"; return d.split('T')[0].split('-').reverse().join('/'); }
+        function val(id) { return document.getElementById(id).value; }
+        function fecharModal() { document.getElementById('modalGeral').style.display='none'; }
     </script>
 </body>
 </html>
