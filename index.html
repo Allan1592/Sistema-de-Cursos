@@ -15,42 +15,38 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--cinza-claro); display: flex; flex-direction: column; min-height: 100vh; }
 
-        #main-header { text-align: center; padding: 20px 10px; }
-        h2 { color: var(--dark); font-size: 1.8rem; text-transform: uppercase; margin-top: 10px; }
+        #main-header { text-align: center; padding: 25px 10px; }
+        h2 { color: var(--dark); font-size: 1.8rem; text-transform: uppercase; }
         .subtitle { color: #666; font-size: 0.9rem; font-weight: 500; }
 
-        #main-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; width: 95%; max-width: 900px; margin: 10px auto; }
-        .card-btn { height: 120px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card-btn i { font-size: 2rem; margin-bottom: 10px; }
-        .card-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        #main-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 90%; max-width: 800px; margin: 20px auto; }
+        .card-btn { height: 140px; border: none; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .card-btn i { font-size: 2.5rem; margin-bottom: 12px; }
+        .card-btn:hover { transform: translateY(-5px); filter: brightness(1.1); }
 
         .btn-verde { background: var(--verde); }
-        .btn-laranja { background: var(--laranja); }
         .btn-azul { background: var(--azul); }
-        .btn-roxo { background: var(--roxo); }
 
-        .content-card { width: 98%; max-width: 1350px; background: white; border-radius: 12px; padding: 20px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin: 15px auto 30px auto; }
-        .active { display: flex; flex-direction: column; }
-        .btn-voltar { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start; }
+        .content-card { width: 95%; max-width: 1200px; background: white; border-radius: 12px; padding: 25px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin: 20px auto; }
+        .active { display: block; }
+        .btn-voltar { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
 
-        .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
-        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
-        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: flex-end; }
+        label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--dark); }
+        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
         
-        .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; height: 38px; }
-        .table-wrapper { width: 100%; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th { position: sticky; top: 0; background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; font-size: 0.75rem; color: var(--dark); }
-        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
+        .btn-std { padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; font-size: 0.85rem; text-align: center; }
+        td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.9rem; }
 
         .linha-concluido { background-color: var(--rosa-claro) !important; }
-        .btn-icon { border: none; background: none; cursor: pointer; font-size: 1.1rem; padding: 0 5px; }
 
-        #modalGeral, #modalGestaoAlunos { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 90%; max-width: 500px; }
-        
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:5000; justify-content:center; align-items:center; flex-direction:column; }
-        footer { text-align: center; padding: 20px; color: #777; font-size: 0.8rem; margin-top: auto; }
+        
+        #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 450px; }
     </style>
 </head>
 <body>
@@ -64,73 +60,42 @@
 
     <div id="main-menu">
         <button class="card-btn btn-verde" onclick="abrir('cursos')"><i class="fa fa-book-open"></i>Cursos</button>
-        <button class="card-btn btn-laranja" onclick="abrir('regular')"><i class="fa fa-school"></i>Ensino Regular</button>
         <button class="card-btn btn-azul" onclick="abrir('superior')"><i class="fa fa-graduation-cap"></i>Ensino Superior</button>
-        <button class="card-btn btn-roxo" onclick="abrir('projetos')"><i class="fa fa-folder-open"></i>Projetos / Jornada</button>
     </div>
 
     <div id="cursos" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
-        <h3 style="color:var(--verde); margin-bottom:10px;">Cursos e Atividades</h3>
+        <button class="btn-voltar" onclick="voltarMenu()">Voltar ao Menu</button>
+        <h3 style="color:var(--verde); margin-bottom:15px;">Cursos Profissionalizantes</h3>
         <div class="form-row">
-            <div style="flex:2;"><label>Nome do curso</label><input type="text" id="curNome"></div>
-            <div style="width:200px;"><label>Tipo</label><select id="curTipo"><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Atividades Complementares e Lazer</option></select></div>
-            <div style="width:100px;"><label>Data início</label><input type="date" id="curIni"></div>
-            <div style="width:80px;"><label>Partic.</label><input type="number" id="curPart"></div>
+            <div style="flex:2;"><label>Nome do Curso</label><input type="text" id="curNome"></div>
+            <div style="width:150px;"><label>Data Início</label><input type="date" id="curIni"></div>
+            <div style="width:100px;"><label>Participantes</label><input type="number" id="curPart"></div>
             <button class="btn-std btn-verde" onclick="salvarNovo('cursos')">Salvar</button>
         </div>
-        <div class="table-wrapper"><table><thead><tr><th>Curso</th><th>Tipo</th><th>Início</th><th>Término</th><th>Part.</th><th>Conc.</th><th>Ações</th></tr></thead><tbody id="listaCursos"></tbody></table></div>
+        <div style="overflow-x:auto;">
+            <table><thead><tr><th>Curso</th><th>Início</th><th>Término</th><th>Part.</th><th>Conc.</th><th>Ações</th></tr></thead><tbody id="listaCursos"></tbody></table>
+        </div>
     </div>
 
     <div id="superior" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
-        <h3 style="color:var(--azul); margin-bottom:10px;">Ensino Superior</h3>
+        <button class="btn-voltar" onclick="voltarMenu()">Voltar ao Menu</button>
+        <h3 style="color:var(--azul); margin-bottom:15px;">Ensino Superior</h3>
         <div class="form-row">
             <div style="flex:2;"><label>Nome do Curso</label><input type="text" id="supNome"></div>
-            <div style="width:130px;"><label>Grau</label><select id="supGrau"><option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option></select></div>
-            <div style="flex:1;"><label>Instituição</label><input type="text" id="supInst"></div>
-            <div style="width:100px;"><label>Período</label><select id="supPer"><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select></div>
-            <div style="width:120px;"><label>Data Início</label><input type="date" id="supIni"></div>
+            <div style="width:150px;"><label>Instituição</label><input type="text" id="supInst"></div>
+            <div style="width:150px;"><label>Data Início</label><input type="date" id="supIni"></div>
             <button class="btn-std btn-azul" onclick="salvarNovo('superior')">Salvar</button>
         </div>
-        <div class="table-wrapper"><table><thead><tr><th>Curso</th><th>Grau</th><th>Instituição</th><th>Período</th><th>Início</th><th>Término</th><th>Ações</th></tr></thead><tbody id="listaSuperior"></tbody></table></div>
-    </div>
-
-    <div id="regular" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()">Menu</button>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:15px;">
-            <h3 style="color:var(--laranja);">Ensino Regular</h3>
-            <button class="btn-std" style="background:var(--dark);" onclick="abrirGestaoAlunos()">Gestão de Alunos</button>
-        </div>
-        <div class="form-row">
-            <div style="flex:2;"><label>Nome da Sala (Grade)</label><input type="text" id="regGrade"></div>
-            <div style="width:130px;"><label>Semestre</label><select id="regSem"><option>1º Semestre</option><option>2º Semestre</option></select></div>
-            <div style="width:120px;"><label>Data Início</label><input type="date" id="regIni"></div>
-            <button class="btn-std btn-laranja" onclick="salvarNovo('regular')">Salvar</button>
-        </div>
-        <div class="table-wrapper"><table><thead><tr><th>Grade</th><th>Semestre</th><th>Início</th><th>Matriculados</th><th>Excluídos</th><th>Ações</th></tr></thead><tbody id="listaSalas"></tbody></table></div>
-    </div>
-
-    <div id="modalGestaoAlunos">
-        <div class="modal-content" style="max-width:900px;">
-            <h3 style="margin-bottom:15px; border-bottom:2px solid var(--dark)">Gestão de Alunos</h3>
-            <div class="form-row">
-                <div style="width:120px;"><label>Matrícula</label><input type="text" id="alMat"></div>
-                <div style="flex:1;"><label>Nome Completo</label><input type="text" id="alNome"></div>
-                <div style="width:150px;"><label>Sala</label><select id="alGrade"></select></div>
-                <button class="btn-std btn-azul" onclick="salvarAlunoManual()">Adicionar</button>
-            </div>
-            <div style="margin-bottom:10px;"><input type="text" id="filtroAlu" onkeyup="filtrarAlunos()" placeholder="Buscar aluno..."></div>
-            <div class="table-wrapper"><table><thead><tr><th>Matrícula</th><th>Nome</th><th>Grade</th><th>Ações</th></tr></thead><tbody id="listaAlunos"></tbody></table></div>
-            <button class="btn-std" style="background:#666; margin-top:15px;" onclick="fecharGestaoAlunos()">Fechar</button>
+        <div style="overflow-x:auto;">
+            <table><thead><tr><th>Curso</th><th>Instituição</th><th>Início</th><th>Término</th><th>Ações</th></tr></thead><tbody id="listaSuperior"></tbody></table>
         </div>
     </div>
 
     <div id="modalGeral">
         <div class="modal-content">
-            <h4 id="mTit" style="margin-bottom:15px; border-bottom:2px solid #333;">Editar Registro</h4>
-            <div id="mCampos" style="display:flex; flex-direction:column; gap:10px;"></div>
-            <div style="display:flex; gap:10px; margin-top:20px;">
+            <h3 id="mTit" style="margin-bottom:20px; border-bottom:2px solid #333;">Editar Registro</h3>
+            <div id="mCampos" style="display:flex; flex-direction:column; gap:15px;"></div>
+            <div style="display:flex; gap:10px; margin-top:25px;">
                 <button class="btn-std btn-verde" style="flex:1" onclick="confirmarEdicao()">Confirmar</button>
                 <button class="btn-std" style="flex:1; background:#666" onclick="fecharModal()">Cancelar</button>
             </div>
@@ -139,130 +104,102 @@
 
     <script>
         const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw_uZ8-aSjr0zmU5yfynA4He3oZ0E-hluKw1zg-kJCirAmSUN6xMFlOwwOEJVvBECQ2XQ/exec";
-        let db = { cursos: [], superior: [], regular: [], alunos: [] };
+        let db = { cursos: [], superior: [] };
         let editandoIndex = -1;
         let editandoTipo = "";
-
-        async function abrir(id) {
-            document.getElementById('main-menu').style.display = 'none';
-            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            await carregarDados();
-        }
-
-        function voltarAoMenu() {
-            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
-            document.getElementById('main-menu').style.display = 'grid';
-        }
 
         async function carregarDados() {
             document.getElementById('loading').style.display = 'flex';
             try {
                 const res = await fetch(URL_SCRIPT);
                 const data = await res.json();
-                db.cursos = (data.cursos || []).map(c => ({
-                    nome: c.curso || c.nome || "", tipo: c.tipo || "", inicio: c.início || c.inicio || "",
-                    termino: c.término || c.termino || "", part: c.part || c.participantes || 0,
-                    conc: c.conc || c.concluintes || 0, status: c.status || "NÃO"
-                }));
-                db.superior = (data.superior || []).map(s => ({
-                    nome: s.nome || s.curso || "", grau: s.grau || "", inst: s.instituição || s.inst || "",
-                    per: s.período || s.per || "", inicio: s.início || s.inicio || "", termino: s.término || s.termino || "", alunos: s.alunos || 0
-                }));
-                db.regular = (data.salas || []).map(s => ({
-                    grade: s.grade || "", sem: s.semestre || s.sem || "", inicio: s.início || s.inicio || ""
-                }));
-                db.alunos = data.alunos || [];
-                renderizarTudo();
-            } catch(e) { console.error("Erro carga"); }
+                db.cursos = data.cursos || [];
+                db.superior = data.superior || [];
+                renderCursos();
+                renderSuperior();
+            } catch (e) { alert("Erro ao carregar dados!"); }
             document.getElementById('loading').style.display = 'none';
         }
 
-        function renderizarTudo() {
-            // Cursos
-            const tbc = document.getElementById('listaCursos'); tbc.innerHTML = "";
+        function renderCursos() {
+            const tb = document.getElementById('listaCursos'); tb.innerHTML = "";
             db.cursos.forEach((c, i) => {
-                tbc.innerHTML += `<tr class="${c.status==='SIM'?'linha-concluido':''}"><td>${c.nome}</td><td>${c.tipo}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc}</td>
-                <td><button class="btn-icon" onclick="abrirEdicao('cursos',${i})">✏️</button></td></tr>`;
+                const trClass = (c.status === "SIM") ? 'class="linha-concluido"' : '';
+                tb.innerHTML += `<tr ${trClass}><td>${c.curso}</td><td>${fmtD(c.início)}</td><td>${fmtD(c.término)}</td><td>${c.participantes}</td><td>${c.concluintes}</td>
+                <td><button onclick="abrirEdicao('cursos', ${i})">✏️</button></td></tr>`;
             });
-            // Superior
-            const tbs = document.getElementById('listaSuperior'); tbs.innerHTML = "";
+        }
+
+        function renderSuperior() {
+            const tb = document.getElementById('listaSuperior'); tb.innerHTML = "";
             db.superior.forEach((s, i) => {
-                tbs.innerHTML += `<tr><td>${s.nome}</td><td>${s.grau}</td><td>${s.inst}</td><td>${s.per}</td><td>${fmtD(s.inicio)}</td><td>${fmtD(s.termino)}</td>
-                <td><button class="btn-icon" onclick="abrirEdicao('superior',${i})">✏️</button></td></tr>`;
-            });
-            // Regular
-            const tbr = document.getElementById('listaSalas'); tbr.innerHTML = "";
-            db.regular.forEach((r, i) => {
-                tbr.innerHTML += `<tr><td>${r.grade}</td><td>${r.sem}</td><td>${fmtD(r.inicio)}</td><td>0</td><td>0</td>
-                <td><button class="btn-icon" onclick="abrirEdicao('regular',${i})">✏️</button></td></tr>`;
+                tb.innerHTML += `<tr><td>${s.curso}</td><td>${s.instituição}</td><td>${fmtD(s.início)}</td><td>${fmtD(s.término)}</td>
+                <td><button onclick="abrirEdicao('superior', ${i})">✏️</button></td></tr>`;
             });
         }
 
         async function salvarNovo(tipo) {
+            document.getElementById('loading').style.display = 'flex';
             let item = {};
-            if(tipo==='cursos') item = { nome: val('curNome').toUpperCase(), tipo: val('curTipo'), inicio: val('curIni'), part: val('curPart'), status: "NÃO", termino: "", conc: 0 };
-            if(tipo==='superior') item = { nome: val('supNome').toUpperCase(), grau: val('supGrau'), inst: val('supInst').toUpperCase(), per: val('supPer'), inicio: val('supIni'), termino: "", alunos: 0 };
-            if(tipo==='regular') item = { grade: val('regGrade').toUpperCase(), sem: val('regSem'), inicio: val('regIni') };
-            
-            db[tipo==='regular'?'regular':tipo].push(item);
-            renderizarTudo(); // Atualiza tela na hora!
-            await sincronizar();
+            if(tipo === 'cursos') {
+                item = { acao: 'salvarCurso', curso: val('curNome'), inicio: val('curIni'), part: val('curPart') };
+            } else {
+                item = { acao: 'salvarSuperior', curso: val('supNome'), inst: val('supInst'), inicio: val('supIni') };
+            }
+            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(item) });
+            await carregarDados();
         }
 
         function abrirEdicao(tipo, idx) {
             editandoTipo = tipo; editandoIndex = idx;
-            const item = (tipo==='regular'?db.regular:db[tipo])[idx];
-            const campos = document.getElementById('mCampos'); campos.innerHTML = "";
+            const item = db[tipo][idx];
+            const campos = document.getElementById('mCampos');
+            campos.innerHTML = "";
 
             if(tipo === 'cursos') {
-                campos.innerHTML = `<label>Nome</label><input type="text" id="edNome" value="${item.nome}">
-                <label>Início</label><input type="date" id="edIni" value="${item.inicio}">
-                <label>Concluído?</label><select id="edStatus"><option value="NÃO" ${item.status==='NÃO'?'selected':''}>NÃO</option><option value="SIM" ${item.status==='SIM'?'selected':''}>SIM</option></select>
-                <label>Término</label><input type="date" id="edFim" value="${item.termino}">
-                <label>Concluintes</label><input type="number" id="edConc" value="${item.conc}">`;
-            } else if(tipo === 'superior') {
-                campos.innerHTML = `<label>Curso</label><input type="text" id="edSupNome" value="${item.nome}">
-                <label>Instituição</label><input type="text" id="edSupInst" value="${item.inst}">
-                <label>Grau</label><input type="text" id="edSupGrau" value="${item.grau}">
-                <label>Início</label><input type="date" id="edSupIni" value="${item.inicio}">
-                <label>Término</label><input type="date" id="edSupFim" value="${item.termino}">`;
+                campos.innerHTML = `<label>Nome do Curso</label><input type="text" id="edNome" value="${item.curso}">
+                <label>Status Concluído (SIM/NÃO)</label><input type="text" id="edStatus" value="${item.status || 'NÃO'}">
+                <label>Data Término</label><input type="date" id="edFim" value="${item.término ? item.término.split('T')[0] : ''}">
+                <label>Concluintes</label><input type="number" id="edConc" value="${item.concluintes || 0}">`;
+            } else {
+                campos.innerHTML = `<label>Curso</label><input type="text" id="edSupNome" value="${item.curso}">
+                <label>Instituição</label><input type="text" id="edSupInst" value="${item.instituição}">
+                <label>Data Início</label><input type="date" id="edSupIni" value="${item.início ? item.início.split('T')[0] : ''}">`;
             }
             document.getElementById('modalGeral').style.display = 'flex';
         }
 
         async function confirmarEdicao() {
-            const idx = editandoIndex;
+            document.getElementById('loading').style.display = 'flex';
+            let payload = { acao: 'editarGeral', tipo: editandoTipo, index: editandoIndex };
+            
             if(editandoTipo === 'cursos') {
-                db.cursos[idx].nome = val('edNome').toUpperCase();
-                db.cursos[idx].inicio = val('edIni');
-                db.cursos[idx].status = val('edStatus');
-                db.cursos[idx].termino = val('edFim');
-                db.cursos[idx].conc = val('edConc');
-            } else if(editandoTipo === 'superior') {
-                db.superior[idx].nome = val('edSupNome').toUpperCase();
-                db.superior[idx].inst = val('edSupInst').toUpperCase();
-                db.superior[idx].grau = val('edSupGrau');
-                db.superior[idx].inicio = val('edSupIni');
-                db.superior[idx].termino = val('edSupFim');
+                payload.curso = val('edNome'); payload.status = val('edStatus').toUpperCase();
+                payload.termino = val('edFim'); payload.concluintes = val('edConc');
+            } else {
+                payload.curso = val('edSupNome'); payload.inst = val('edSupInst'); payload.inicio = val('edSupIni');
             }
-            renderizarTudo();
+
+            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
             fecharModal();
-            await sincronizar();
+            await carregarDados();
         }
 
-        async function sincronizar() {
-            document.getElementById('loading').style.display = 'flex';
-            const payload = { acao: 'salvarTudo', cursos: db.cursos, superior: db.superior, salas: db.regular, alunos: db.alunos };
-            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            document.getElementById('loading').style.display = 'none';
+        function abrir(id) {
+            document.getElementById('main-menu').style.display = 'none';
+            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            carregarDados();
+        }
+
+        function voltarMenu() {
+            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('main-menu').style.display = 'grid';
         }
 
         function val(id) { return document.getElementById(id).value; }
+        function fecharModal() { document.getElementById('modalGeral').style.display = 'none'; }
         function fmtD(d) { if(!d) return "---"; return d.split('T')[0].split('-').reverse().join('/'); }
-        function fecharModal() { document.getElementById('modalGeral').style.display='none'; }
-        function abrirGestaoAlunos() { document.getElementById('modalGestaoAlunos').style.display='flex'; }
-        function fecharGestaoAlunos() { document.getElementById('modalGestaoAlunos').style.display='none'; }
     </script>
 </body>
 </html>
