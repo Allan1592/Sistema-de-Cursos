@@ -44,7 +44,7 @@
         .btn-roxo { background: var(--roxo); }
 
         .content-card { 
-            width: 98%; max-width: 1300px; background: white; border-radius: 12px; 
+            width: 98%; max-width: 1350px; background: white; border-radius: 12px; 
             padding: 20px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
             margin-top: 15px; margin-bottom: 30px;
         }
@@ -55,38 +55,32 @@
             border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start;
         }
 
-        /* --- CAMPOS COMPACTOS --- */
+        /* --- FORMULÁRIO SUPERIOR --- */
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
-        .fg-sup-nome { flex: 3; min-width: 250px; }
-        .fg-sup-grau { width: 140px; }
-        .fg-sup-inst { flex: 2; min-width: 200px; }
-        .fg-sup-per { width: 130px; }
-        .fg-sup-sala { width: 60px; }
-        .fg-sup-alunos { width: 80px; }
+        .fg-sup-nome { flex: 2; min-width: 200px; }
+        .fg-sup-grau { width: 130px; }
+        .fg-sup-inst { flex: 1.5; min-width: 180px; }
+        .fg-sup-per { width: 120px; }
+        .fg-sup-sala { width: 55px; }
+        .fg-sup-alunos { width: 75px; }
+        .fg-sup-data { width: 145px; }
 
-        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
-        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; height: 38px; }
+        label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
 
-        .btn-std { padding: 10px 18px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.9rem; }
+        .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; }
         .btn-limpar { background: #95a5a6; }
 
-        .table-wrapper { 
-            width: 100%; max-height: 440px; overflow-y: auto; 
-            border: 1px solid #ddd; border-radius: 8px; 
-        }
-        
+        /* --- TABELA --- */
+        .table-wrapper { width: 100%; max-height: 440px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; }
-        thead th { 
-            position: sticky; top: 0; background: #f8f9fa; z-index: 10; 
-            padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; 
-            color: var(--dark); font-size: 0.8rem; 
-        }
-        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; }
+        thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.75rem; }
+        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
         
         /* MODAL */
         #modalSuperior { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 400px; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; }
 
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
@@ -114,7 +108,7 @@
         <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
         
         <div class="form-row">
-            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome" placeholder="Ex: DIREITO"></div>
+            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome" placeholder="DIREITO"></div>
             <div class="form-group fg-sup-grau"><label>GRAU *</label>
                 <select id="supGrau">
                     <option value="">Selecione...</option>
@@ -130,6 +124,7 @@
             </div>
             <div class="form-group fg-sup-sala"><label>SALA *</label><input type="text" id="supSala" maxlength="1"></div>
             <div class="form-group fg-sup-alunos"><label>ALUNOS *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+            <div class="form-group fg-sup-data"><label>DATA INÍCIO *</label><input type="date" id="supInicio"></div>
             
             <button class="btn-std btn-azul" style="height:38px;" onclick="validarECadastrarSuperior()"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparSup()"><i class="fa fa-eraser"></i> Limpar</button>
@@ -139,14 +134,16 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 40px;">Nº</th>
+                        <th style="width: 30px;">Nº</th>
                         <th style="text-align: left;">CURSO</th>
-                        <th style="width: 140px;">GRAU</th>
+                        <th style="width: 100px;">GRAU</th>
                         <th>INSTITUIÇÃO</th>
-                        <th style="width: 120px;">PERÍODO</th>
-                        <th style="width: 60px;">SALA</th>
-                        <th style="width: 60px;">ALUNOS</th>
-                        <th style="width: 100px;">AÇÕES</th>
+                        <th style="width: 90px;">PERÍODO</th>
+                        <th style="width: 40px;">SL</th>
+                        <th style="width: 40px;">AL</th>
+                        <th style="width: 90px;">INÍCIO</th>
+                        <th style="width: 90px;">TÉRMINO</th>
+                        <th style="width: 80px;">AÇÕES</th>
                     </tr>
                 </thead>
                 <tbody id="listaSuperior"></tbody>
@@ -156,13 +153,17 @@
 
     <div id="modalSuperior">
         <div class="modal-content">
-            <h4 style="margin-bottom:15px; border-bottom: 2px solid var(--azul); padding-bottom:5px;">Editar Curso Superior</h4>
+            <h4 id="supModalTitulo" style="margin-bottom:15px; border-bottom: 2px solid var(--azul); padding-bottom:5px; font-size:1rem;">Editar Curso</h4>
             <input type="hidden" id="editSupIndex">
             <div style="margin-bottom:10px;"><label>NOME DO CURSO</label><input type="text" id="editSupNome"></div>
-            <div style="margin-bottom:10px;"><label>SALA</label><input type="text" id="editSupSala" maxlength="1"></div>
-            <div style="margin-bottom:15px;"><label>Nº ALUNOS</label><input type="number" id="editSupAlunos"></div>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <div style="flex:1;"><label>SALA</label><input type="text" id="editSupSala" maxlength="1"></div>
+                <div style="flex:1;"><label>Nº ALUNOS</label><input type="number" id="editSupAlunos"></div>
+            </div>
+            <div style="margin-bottom:15px;"><label>DATA DE TÉRMINO</label><input type="date" id="editSupTermino"></div>
+            
             <div style="display:flex; gap:10px;">
-                <button class="btn-std btn-azul" style="flex:1;" onclick="salvarEdicaoSuperior()">Salvar</button>
+                <button class="btn-std btn-azul" style="flex:1;" onclick="salvarEdicaoSuperior()">Confirmar</button>
                 <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModalSup()">Sair</button>
             </div>
         </div>
@@ -187,7 +188,12 @@
             document.getElementById('main-header').style.display = 'block';
         }
 
-        // --- LÓGICA ENSINO SUPERIOR ---
+        function tratarData(d) {
+            if(!d) return '---';
+            let limpa = d.split('T')[0]; 
+            return limpa.split('-').reverse().join('/');
+        }
+
         async function validarECadastrarSuperior() {
             const dados = {
                 nome: document.getElementById('supNome').value.toUpperCase(),
@@ -195,9 +201,11 @@
                 inst: document.getElementById('supInst').value.toUpperCase(),
                 per: document.getElementById('supPer').value,
                 sala: document.getElementById('supSala').value,
-                alunos: document.getElementById('supAlunos').value
+                alunos: document.getElementById('supAlunos').value,
+                inicio: document.getElementById('supInicio').value,
+                termino: "" 
             };
-            if (Object.values(dados).some(v => !v)) return alert("Preencha todos os campos!");
+            if (!dados.nome || !dados.grau || !dados.inicio) return alert("Preencha Nome, Grau e Início!");
             dbSuperior.push(dados);
             await salvarSuperior();
             limparSup();
@@ -211,6 +219,7 @@
                     <td>${i+1}</td>
                     <td style="text-align: left;"><b>${c.nome}</b></td>
                     <td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td>
+                    <td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
                     <td>
                         <button onclick="abrirModalSup(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem; margin-right:8px;"><i class="fa fa-edit"></i></button>
                         <button onclick="removerSuperior(${i})" style="color:var(--vermelho); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-trash"></i></button>
@@ -222,9 +231,11 @@
         function abrirModalSup(i) {
             const c = dbSuperior[i];
             document.getElementById('editSupIndex').value = i;
+            document.getElementById('supModalTitulo').innerText = "Editar: " + c.nome;
             document.getElementById('editSupNome').value = c.nome;
             document.getElementById('editSupSala').value = c.sala;
             document.getElementById('editSupAlunos').value = c.alunos;
+            document.getElementById('editSupTermino').value = c.termino ? c.termino.split('T')[0] : "";
             document.getElementById('modalSuperior').style.display = 'flex';
         }
 
@@ -233,6 +244,7 @@
             dbSuperior[i].nome = document.getElementById('editSupNome').value.toUpperCase();
             dbSuperior[i].sala = document.getElementById('editSupSala').value;
             dbSuperior[i].alunos = document.getElementById('editSupAlunos').value;
+            dbSuperior[i].termino = document.getElementById('editSupTermino').value;
             fecharModalSup();
             await salvarSuperior();
         }
@@ -242,13 +254,14 @@
         }
 
         function fecharModalSup() { document.getElementById('modalSuperior').style.display = 'none'; }
-        function limparSup() { ['supNome','supInst','supSala','supAlunos'].forEach(id => document.getElementById(id).value=""); document.getElementById('supGrau').value=""; document.getElementById('supPer').value=""; }
+        function limparSup() { 
+            ['supNome','supInst','supSala','supAlunos','supInicio'].forEach(id => document.getElementById(id).value=""); 
+            document.getElementById('supGrau').value=""; document.getElementById('supPer').value=""; 
+        }
 
-        // --- GOOGLE ---
         async function salvarSuperior() {
             document.getElementById('loading').style.display = 'flex';
             try {
-                // Aqui você usaria o mesmo URL_SCRIPT, o doPost do Google cuidará de identificar os dados
                 await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', superior: dbSuperior, cursos: [] }) });
                 atualizarTabelaSuperior();
             } catch (e) { console.error(e); }
