@@ -19,24 +19,24 @@
             min-height: 100vh; overflow-x: hidden; 
         }
 
-        #main-header { text-align: center; padding: 30px 10px; }
-        .logo-placeholder { font-size: 3.5rem; margin-bottom: 10px; display: block; }
-        h2 { color: var(--dark); font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { color: #666; font-size: 1rem; margin-top: 5px; font-weight: 500; }
+        #main-header { text-align: center; padding: 20px 10px; }
+        .logo-placeholder { font-size: 3rem; margin-bottom: 5px; display: block; }
+        h2 { color: var(--dark); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: #666; font-size: 0.9rem; font-weight: 500; }
 
         #main-menu { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; width: 95%; max-width: 1000px; margin-top: 10px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 15px; width: 95%; max-width: 900px; margin-top: 10px;
         }
 
         .card-btn { 
-            height: 150px; border: none; border-radius: 12px; color: white; 
-            font-weight: bold; font-size: 1.1rem; cursor: pointer; 
+            height: 130px; border: none; border-radius: 12px; color: white; 
+            font-weight: bold; font-size: 1rem; cursor: pointer; 
             display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.3s; 
+            justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; 
         }
-        .card-btn i { font-size: 2.5rem; margin-bottom: 15px; }
-        .card-btn:hover { transform: translateY(-5px); filter: brightness(1.1); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+        .card-btn i { font-size: 2rem; margin-bottom: 10px; }
+        .card-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
         .btn-verde { background: var(--verde); }
         .btn-laranja { background: var(--laranja); }
@@ -44,70 +44,63 @@
         .btn-roxo { background: var(--roxo); }
 
         .content-card { 
-            width: 95%; max-width: 1300px; background: white; border-radius: 12px; 
-            padding: 25px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-            margin-top: 20px; margin-bottom: 40px;
+            width: 98%; max-width: 1300px; background: white; border-radius: 12px; 
+            padding: 20px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            margin-top: 15px; margin-bottom: 30px;
         }
         .active { display: flex; flex-direction: column; }
 
         .btn-voltar { 
-            background: #666; color: white; border: none; padding: 10px 20px; 
-            border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 20px; align-self: flex-start;
+            background: #666; color: white; border: none; padding: 8px 15px; 
+            border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start;
         }
 
-        .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .form-group { flex: 1; min-width: 200px; }
-        label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--dark); }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+        /* --- CAMPOS ORGANIZADOS E COMPACTOS --- */
+        .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
+        
+        .fg-nome { flex: 3; min-width: 250px; }
+        .fg-tipo { width: 180px; }
+        .fg-carga { width: 100px; }
+        .fg-data { width: 155px; }
+        .fg-part { width: 100px; }
 
-        .actions-bar { display: flex; gap: 10px; margin: 20px 0; align-items: center; flex-wrap: wrap; }
-        .btn-std { padding: 12px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; height: 38px; }
 
-        /* TABELA COM SCROLL PARA 8 LINHAS */
+        .actions-bar { display: flex; gap: 10px; margin: 15px 0; align-items: center; }
+        .btn-std { padding: 10px 18px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.9rem; }
+
+        /* --- TABELA E SCROLL --- */
         .table-wrapper { 
-            width: 100%; 
-            max-height: 460px; 
-            overflow-y: auto; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
+            width: 100%; max-height: 440px; overflow-y: auto; 
+            border: 1px solid #ddd; border-radius: 8px; 
         }
         
         table { width: 100%; border-collapse: collapse; }
         thead th { 
             position: sticky; top: 0; background: #f8f9fa; z-index: 10; 
-            padding: 15px; border-bottom: 2px solid #dee2e6; text-align: center; 
-            color: var(--dark); font-size: 0.85rem; 
+            padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; 
+            color: var(--dark); font-size: 0.8rem; 
         }
-        tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; }
+        tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; }
         
         .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 3px 6px; border-radius: 4px; font-weight: bold; margin-left: 8px; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; }
 
-        /* MODAL HARMONIZADO */
+        /* --- MODAL HARMONIZADO --- */
         #modalEdicao { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        
-        /* Ajuste do checkbox no modal */
-        .checkbox-container { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-radius: 8px; cursor: pointer; }
         .checkbox-container input { width: auto; cursor: pointer; }
         .checkbox-container span { font-weight: bold; color: var(--dark); font-size: 0.9rem; }
 
-        footer { text-align: center; padding: 25px; color: #777; font-size: 0.9rem; margin-top: auto; }
+        footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
     </style>
 </head>
 <body>
 
-    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Processando...</p></div>
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-2x" style="color:var(--verde)"></i><p style="margin-top:10px; font-size:0.9rem; font-weight:bold;">Sincronizando com Google...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -124,22 +117,26 @@
 
     <div id="cursos" class="content-card">
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
-        <h3 style="color:var(--verde); margin-bottom:20px; font-size: 1.5rem;">Painel de Cursos</h3>
+        <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
         
         <div class="form-row">
-            <div class="form-group" style="flex: 2;"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
-            <div class="form-group"><label>TIPO *</label><select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
-            <div class="form-group"><label>CARGA HORÁRIA *</label><input type="text" id="curCarga"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-group"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group"><label>Nº PARTICIPANTES *</label><input type="number" id="curPart"></div>
+            <div class="form-group fg-nome"><label>NOME DO CURSO *</label><input type="text" id="curNome" placeholder="Ex: ELETRICISTA"></div>
+            <div class="form-group fg-tipo"><label>TIPO *</label>
+                <select id="curTipo">
+                    <option value="">Selecione...</option>
+                    <option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option>
+                </select>
+            </div>
+            <div class="form-group fg-carga"><label>CARGA *</label><input type="text" id="curCarga" placeholder="Ex: 160h"></div>
+            <div class="form-group fg-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
+            <div class="form-group fg-part"><label>Nº PART. *</label><input type="number" id="curPart" placeholder="0"></div>
+            <button class="btn-std btn-verde" style="height:38px;" onclick="validarECadastrar()"><i class="fa fa-save"></i> Salvar</button>
         </div>
 
         <div class="actions-bar">
-            <button class="btn-std btn-verde" onclick="validarECadastrar()"><i class="fa fa-save"></i> Salvar Curso</button>
-            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 180px; padding: 10px;">
-                <option value="todos">Ver Todos</option>
+            <div style="font-size: 0.8rem; font-weight: bold; color: var(--dark);">FILTRAR:</div>
+            <select id="filtroStatus" onchange="atualizarTabela()" style="width: 150px; height: 32px; padding: 0 5px; border-radius: 6px;">
+                <option value="todos">Todos</option>
                 <option value="ativos">Ativos</option>
                 <option value="concluidos">Concluídos</option>
             </select>
@@ -149,15 +146,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50px;">Nº</th>
+                        <th style="width: 40px;">Nº</th>
                         <th style="text-align: left;">CURSO</th>
-                        <th>TIPO</th>
-                        <th>CARGA</th>
-                        <th>INÍCIO</th>
-                        <th>TÉRMINO</th>
-                        <th>PART.</th>
-                        <th>CONC.</th>
-                        <th>AÇÕES</th>
+                        <th style="width: 150px;">TIPO</th>
+                        <th style="width: 80px;">CARGA</th>
+                        <th style="width: 100px;">INÍCIO</th>
+                        <th style="width: 100px;">TÉRMINO</th>
+                        <th style="width: 60px;">PART.</th>
+                        <th style="width: 60px;">CONC.</th>
+                        <th style="width: 100px;">AÇÕES</th>
                     </tr>
                 </thead>
                 <tbody id="listaCursos"></tbody>
@@ -167,7 +164,7 @@
 
     <div id="modalEdicao">
         <div class="modal-content">
-            <h4 id="modalTitulo" style="margin-bottom:20px; border-bottom: 2px solid var(--verde); padding-bottom: 10px;">Finalizar Curso</h4>
+            <h4 id="modalTitulo" style="margin-bottom:15px; font-size:1.1rem; border-bottom: 2px solid var(--verde); padding-bottom: 5px;">Finalizar</h4>
             <input type="hidden" id="editIndex">
             
             <label class="checkbox-container">
@@ -175,15 +172,9 @@
                 <span>Marcar como Concluído</span>
             </label>
 
-            <div class="form-group" style="margin-bottom:15px;">
-                <label>DATA TÉRMINO REAL</label>
-                <input type="date" id="curTerminoModal">
-            </div>
-            <div class="form-group" style="margin-bottom:20px;">
-                <label>QTD CONCLUINTES</label>
-                <input type="number" id="curConcModal" placeholder="0">
-            </div>
-
+            <div class="form-group" style="margin-bottom:10px;"><label>DATA TÉRMINO REAL</label><input type="date" id="curTerminoModal"></div>
+            <div class="form-group" style="margin-bottom:15px;"><label>QTD CONCLUINTES</label><input type="number" id="curConcModal" placeholder="0"></div>
+            
             <div style="display:flex; gap:10px;">
                 <button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Confirmar</button>
                 <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
@@ -220,7 +211,7 @@
             };
 
             if (Object.values(campos).some(v => !v)) {
-                alert("Preencha todos os campos obrigatórios (*)");
+                alert("ERRO: Preencha todos os campos obrigatórios!");
                 return;
             }
 
@@ -234,7 +225,7 @@
             try {
                 await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarCursos', dados: bancoDados }) });
                 atualizarTabela();
-            } catch (e) { console.error(e); }
+            } catch (e) { alert("Erro ao salvar no Google Sheets."); }
             document.getElementById('loading').style.display = 'none';
         }
 
@@ -245,7 +236,7 @@
                 const data = await res.json();
                 bancoDados = data.cursos || [];
                 atualizarTabela();
-            } catch (e) { console.log("Erro ou banco vazio."); }
+            } catch (e) { console.log("Sem conexão."); }
             document.getElementById('loading').style.display = 'none';
         }
 
@@ -253,7 +244,6 @@
             const tbody = document.getElementById('listaCursos');
             const filtro = document.getElementById('filtroStatus').value;
             tbody.innerHTML = "";
-            
             bancoDados.forEach((c, i) => {
                 if(filtro === 'ativos' && c.concluido) return;
                 if(filtro === 'concluidos' && !c.concluido) return;
@@ -262,7 +252,7 @@
 
                 tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
                     <td>${i+1}</td>
-                    <td style="text-align: left;"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td>
+                    <td style="text-align: left;"><b>${c.nome}</b> ${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td>
                     <td>${c.tipo}</td><td>${c.carga}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
                     <td>
                         <button onclick="abrirModal(${i})" title="Editar/Concluir" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem; margin-right:8px;"><i class="fa fa-edit"></i></button>
@@ -288,7 +278,7 @@
             const dataT = document.getElementById('curTerminoModal').value;
             const qtd = document.getElementById('curConcModal').value;
 
-            if (conc && (!dataT || !qtd)) return alert("Para concluir, preencha data e concluintes.");
+            if (conc && (!dataT || !qtd)) return alert("Preencha data e concluintes.");
 
             bancoDados[i].concluido = conc;
             bancoDados[i].termino = dataT;
@@ -298,14 +288,17 @@
         }
 
         async function removerIndividual(i) {
-            if(confirm("Deseja realmente excluir este curso?")) {
+            if(confirm("Excluir curso permanentemente?")) {
                 bancoDados.splice(i, 1);
                 await salvarNoGoogle();
             }
         }
 
         function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; }
-        function limparForm() { ['curNome','curCarga','curInicio','curPart'].forEach(id => document.getElementById(id).value = ""); document.getElementById('curTipo').value = ""; }
+        function limparForm() { 
+            ['curNome','curCarga','curInicio','curPart'].forEach(id => document.getElementById(id).value = ""); 
+            document.getElementById('curTipo').value = ""; 
+        }
     </script>
 </body>
 </html>
