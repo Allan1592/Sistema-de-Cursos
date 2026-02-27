@@ -40,15 +40,16 @@
         
         .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; height: 38px; }
         .table-wrapper { width: 100%; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th { position: sticky; top: 0; background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; font-size: 0.75rem; color: var(--dark); }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        thead th { position: sticky; top: 0; background: #f8f9fa; padding: 12px; border-bottom: 2px solid #dee2e6; font-size: 0.75rem; color: var(--dark); z-index: 10; }
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
 
         .linha-concluido { background-color: var(--rosa-claro) !important; }
-        .btn-icon { border: none; background: none; cursor: pointer; font-size: 1.1rem; padding: 0 5px; }
+        .btn-icon { border: none; background: none; cursor: pointer; font-size: 1.1rem; padding: 0 5px; transition: 0.2s; }
+        .btn-icon:hover { transform: scale(1.2); }
 
         #modalGeral, #modalGestaoAlunos { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow-y: auto; }
         
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:5000; justify-content:center; align-items:center; flex-direction:column; }
         footer { text-align: center; padding: 20px; color: #777; font-size: 0.8rem; margin-top: auto; width: 100%; }
@@ -143,19 +144,19 @@
                 <div style="width:130px;"><label>Data início</label><input type="date" id="alIni"></div>
                 <button class="btn-std btn-azul" onclick="salvarAlunoManual()">Adicionar</button>
             </div>
-            <div class="form-row" style="margin-top:10px;"><div style="width:100%;"><label>Buscar Aluno</label><input type="text" id="filtroAlu" onkeyup="filtrarAlunos()" placeholder="Nome, Matrícula ou Grade..."></div></div>
+            <div class="form-row" style="margin-top:10px;"><div style="width:100%;"><label>Buscar Aluno (Matrícula, Nome ou Grade)</label><input type="text" id="filtroAlu" onkeyup="filtrarAlunos()" placeholder="Pesquisar..."></div></div>
             <div class="table-wrapper"><table><thead><tr><th>Matrícula</th><th style="text-align:left">Nome</th><th>Grade</th><th>Série</th><th>Início</th><th>Término</th><th>Ações</th></tr></thead><tbody id="listaAlunos"></tbody></table></div>
         </div>
     </div>
 
     <div id="modalGeral">
-        <div class="modal-content" style="width:450px;">
-            <h4 id="mTit" style="border-bottom:2px solid var(--dark); margin-bottom:15px;">Editar Registro</h4>
+        <div class="modal-content" style="width:480px; max-height: 90vh;">
+            <h4 id="mTit" style="border-bottom:2px solid var(--dark); margin-bottom:15px; padding-bottom: 5px;">Editar Registro</h4>
             <input type="hidden" id="mIdx"><input type="hidden" id="mTipo">
-            <div id="mCampos" style="display:flex; flex-direction:column; gap:10px;"></div>
+            <div id="mCampos" style="display:flex; flex-direction:column; gap:12px;"></div>
             <div style="display:flex; gap:10px; margin-top:20px;">
-                <button class="btn-std btn-verde" style="flex:1" onclick="confirmarEdicao()">Confirmar</button>
-                <button class="btn-std" style="flex:1; background:#666" onclick="fecharModal()">Sair</button>
+                <button class="btn-std btn-verde" style="flex:1" onclick="confirmarEdicao()">Confirmar Alteração</button>
+                <button class="btn-std" style="flex:1; background:#666" onclick="fecharModal()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -186,44 +187,47 @@
                 const res = await fetch(URL_SCRIPT);
                 const data = await res.json();
                 
+                // Mapeamento Robusto para evitar 'undefined'
                 db.cursos = (data.cursos || []).map(c => ({
-                    nome: c.curso || c.nome,
-                    tipo: c.tipo,
-                    carga: c.carga,
-                    inicio: c.início || c.inicio,
-                    termino: c.término || c.termino,
+                    nome: c.curso || c.nome || "S/N",
+                    tipo: c.tipo || "",
+                    carga: c.carga || "",
+                    inicio: c.início || c.inicio || "",
+                    termino: c.término || c.termino || "",
                     part: c.part || c.participantes || 0,
                     conc: c.conc || c.concluintes || 0,
-                    concluido: c.status === "SIM"
+                    concluido: (c.status === "SIM" || c.concluido === "SIM")
                 }));
 
                 db.superior = (data.superior || []).map(s => ({
-                    nome: s.nome || s.curso || "---",
-                    grau: s.grau,
-                    inst: s.instituição || s.inst || "---",
-                    per: s.período || s.per,
-                    sala: s.sala,
-                    alunos: s.alunos,
-                    inicio: s.início || s.inicio,
-                    termino: s.término || s.termino
+                    nome: s.nome || s.curso || "S/N",
+                    grau: s.grau || "",
+                    inst: s.instituição || s.inst || "",
+                    per: s.período || s.per || "",
+                    sala: s.sala || "",
+                    alunos: s.alunos || 0,
+                    inicio: s.início || s.inicio || "",
+                    termino: s.término || s.termino || ""
                 }));
 
                 db.regular = (data.salas || []).map(s => ({
-                    grade: s.grade, tipo: s.tipo, per: s.período || s.per, sem: s.semestre || s.sem, sala: s.sala, inicio: s.início || s.inicio, termino: s.término || s.termino
+                    grade: s.grade || "", tipo: s.tipo || "", per: s.período || s.per || "", 
+                    sem: s.semestre || s.sem || "", sala: s.sala || "", 
+                    inicio: s.início || s.inicio || "", termino: s.término || s.termino || ""
                 }));
 
                 db.alunos = data.alunos || [];
                 
                 renderCursos(); renderSuperior(); renderRegular();
-            } catch(e) { console.error("Erro na carga"); }
+            } catch(e) { alert("Erro de conexão com a planilha!"); }
             document.getElementById('loading').style.display = 'none';
         }
 
         function renderCursos() {
             const tb = document.getElementById('listaCursos'); tb.innerHTML = "";
             db.cursos.forEach((c, i) => {
-                const classeCor = c.concluido ? 'class="linha-concluido"' : '';
-                tb.innerHTML += `<tr ${classeCor}><td>${i+1}</td><td style="text-align:left">${c.nome}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc}</td>
+                const trClass = c.concluido ? 'class="linha-concluido"' : '';
+                tb.innerHTML += `<tr ${trClass}><td>${i+1}</td><td style="text-align:left">${c.nome}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc}</td>
                 <td><button class="btn-icon" style="color:orange" onclick="abrirEdicao('cursos',${i})"><i class="fa fa-edit"></i></button>
                 <button class="btn-icon" style="color:red" onclick="removerItem('cursos',${i})"><i class="fa fa-trash"></i></button></td></tr>`;
             });
@@ -249,65 +253,80 @@
         }
 
         async function salvarNovo(tipo) {
-            if(tipo === 'cursos' && !val('curIni')) return alert("A Data de Início é obrigatória!");
+            if(tipo === 'cursos' && !document.getElementById('curIni').value) return alert("Data de Início é obrigatória!");
             
             let item = {};
             if(tipo === 'cursos') item = { nome: val('curNome').toUpperCase(), tipo: val('curTipo'), carga: val('curCarga'), inicio: val('curIni'), part: val('curPart'), termino: "", conc: 0, status: "NÃO" };
-            else if(tipo === 'superior') item = { nome: val('supNome').toUpperCase(), grau: val('supGrau'), instituição: val('supInst').toUpperCase(), período: val('supPer'), sala: val('supSala'), alunos: val('supAlunos'), início: val('supIni'), término: "" };
-            else if(tipo === 'regular') item = { grade: val('regGrade').toUpperCase(), tipo: val('regTipo'), período: val('regPer'), semestre: val('regSem'), sala: val('regSala'), início: val('regIni'), término: val('regFim') };
+            else if(tipo === 'superior') item = { nome: val('supNome').toUpperCase(), grau: val('supGrau'), inst: val('supInst').toUpperCase(), per: val('supPer'), sala: val('supSala'), alunos: val('supAlunos'), inicio: val('supIni'), termino: "" };
+            else if(tipo === 'regular') item = { grade: val('regGrade').toUpperCase(), tipo: val('regTipo'), per: val('regPer'), sem: val('regSem'), sala: val('regSala'), inicio: val('regIni'), termino: val('regFim') };
             
-            db[tipo==='regular'?'regular':tipo].push(item);
+            const chave = tipo === 'regular' ? 'regular' : tipo;
+            db[chave].push(item);
             await sincronizar();
         }
 
+        async function salvarAlunoManual() {
+            const m = val('alMat'); const n = val('alNome');
+            if(!m || !n) return alert("Preencha Matrícula e Nome!");
+            db.alunos.push({ matricula: m, nome: n.toUpperCase(), grade: val('alGrade'), serie: val('alSerie'), inicio: val('alIni'), termino: "" });
+            await sincronizar();
+            document.getElementById('alMat').value = ""; document.getElementById('alNome').value = "";
+            renderAlunos();
+        }
+
         function abrirEdicao(tipo, idx) {
-            const item = (tipo==='regular'?db.regular:db[tipo])[idx];
+            const lista = (tipo === 'regular' ? db.regular : db[tipo]);
+            const item = lista[idx];
             document.getElementById('mIdx').value = idx;
             document.getElementById('mTipo').value = tipo;
             const campos = document.getElementById('mCampos'); campos.innerHTML = "";
             
             if(tipo === 'cursos') {
-                campos.innerHTML = `<label>Nome do Curso</label><input type="text" id="edNome" value="${item.nome}">
-                    <label>Participantes</label><input type="number" id="edPart" value="${item.part}">
+                campos.innerHTML = `<label>Curso</label><input type="text" id="edNome" value="${item.nome}">
                     <label>Data Início</label><input type="date" id="edIni" value="${item.inicio}">
-                    <label>Curso Concluído? *</label><select id="edConcStatus"><option value="">Selecione...</option><option value="NÃO" ${!item.concluido?'selected':''}>NÃO</option><option value="SIM" ${item.concluido?'selected':''}>SIM</option></select>
-                    <label>Data Término Real</label><input type="date" id="edFim" value="${item.termino}">
-                    <label>Qtd Concluintes</label><input type="number" id="edConcQtd" value="${item.conc}">`;
+                    <label>Participantes</label><input type="number" id="edPart" value="${item.part}">
+                    <label>Concluído?</label><select id="edStatus"><option value="NÃO" ${!item.concluido?'selected':''}>NÃO</option><option value="SIM" ${item.concluido?'selected':''}>SIM</option></select>
+                    <label>Data Término</label><input type="date" id="edFim" value="${item.termino}">
+                    <label>Concluintes</label><input type="number" id="edConc" value="${item.conc}">`;
             } else if(tipo === 'superior') {
-                campos.innerHTML = `<label>Curso</label><input type="text" id="edSupNome" value="${item.nome}">
+                campos.innerHTML = `<label>Nome do Curso</label><input type="text" id="edSupNome" value="${item.nome}">
                     <label>Instituição</label><input type="text" id="edSupInst" value="${item.inst}">
-                    <label>Início</label><input type="date" id="edSupIni" value="${item.inicio}">
-                    <label>Término</label><input type="date" id="edSupFim" value="${item.termino}">`;
+                    <label>Grau</label><select id="edSupGrau"><option ${item.grau=='Tecnólogo'?'selected':''}>Tecnólogo</option><option ${item.grau=='Graduação'?'selected':''}>Graduação</option><option ${item.grau=='Pós'?'selected':''}>Pós</option></select>
+                    <label>Data Início</label><input type="date" id="edSupIni" value="${item.inicio}">
+                    <label>Data Término</label><input type="date" id="edSupFim" value="${item.termino}">`;
             } else if(tipo === 'regular') {
-                campos.innerHTML = `<label>Grade</label><input type="text" id="edRegGrade" value="${item.grade}"><label>Sala</label><input type="text" id="edRegSala" value="${item.sala}"><label>Início</label><input type="date" id="edRegIni" value="${item.inicio}">`;
+                campos.innerHTML = `<label>Grade</label><input type="text" id="edRegGrade" value="${item.grade}"><label>Sala</label><input type="text" id="edRegSala" value="${item.sala}"><label>Semestre</label><select id="edRegSem"><option ${item.sem=='1º Semestre'?'selected':''}>1º Semestre</option><option ${item.sem=='2º Semestre'?'selected':''}>2º Semestre</option></select>`;
             } else if(tipo === 'alunos') {
-                campos.innerHTML = `<label>Nome</label><input type="text" id="edAluNome" value="${item.nome}"><label>Data Início</label><input type="date" id="edAluIni" value="${item.inicio}">`;
+                campos.innerHTML = `<label>Nome</label><input type="text" id="edAluNome" value="${item.nome}"><label>Série</label><input type="text" id="edAluSerie" value="${item.serie}"><label>Desligamento (Data)</label><input type="date" id="edAluFim" value="${item.termino}">`;
             }
             document.getElementById('modalGeral').style.display = 'flex';
         }
 
         async function confirmarEdicao() {
             const idx = val('mIdx'); const tipo = val('mTipo');
-            const lista = (tipo==='regular'?db.regular:db[tipo]);
+            const lista = (tipo === 'regular' ? db.regular : db[tipo]);
             
             if(tipo === 'cursos') {
-                if(!val('edConcStatus')) return alert("Selecione se o curso foi concluído!");
-                if(val('edConcStatus') === "SIM" && !val('edFim')) return alert("Para concluir, informe a Data de Término!");
                 lista[idx].nome = val('edNome').toUpperCase();
-                lista[idx].part = val('edPart');
                 lista[idx].inicio = val('edIni');
-                lista[idx].status = val('edConcStatus');
+                lista[idx].part = val('edPart');
+                lista[idx].status = val('edStatus');
                 lista[idx].termino = val('edFim');
-                lista[idx].conc = val('edConcQtd') || 0;
+                lista[idx].conc = val('edConc');
             } else if(tipo === 'superior') {
                 lista[idx].nome = val('edSupNome').toUpperCase();
                 lista[idx].inst = val('edSupInst').toUpperCase();
+                lista[idx].grau = val('edSupGrau');
                 lista[idx].inicio = val('edSupIni');
                 lista[idx].termino = val('edSupFim');
             } else if(tipo === 'regular') {
                 lista[idx].grade = val('edRegGrade').toUpperCase();
                 lista[idx].sala = val('edRegSala');
-                lista[idx].inicio = val('edRegIni');
+                lista[idx].sem = val('edRegSem');
+            } else if(tipo === 'alunos') {
+                lista[idx].nome = val('edAluNome').toUpperCase();
+                lista[idx].serie = val('edAluSerie');
+                lista[idx].termino = val('edAluFim');
             }
             fecharModal(); await sincronizar();
         }
@@ -315,8 +334,41 @@
         async function sincronizar() {
             document.getElementById('loading').style.display = 'flex';
             const payload = { acao: 'salvarTudo', cursos: db.cursos, superior: db.superior, salas: db.regular, alunos: db.alunos };
-            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            await carregarDados();
+            try {
+                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                await carregarDados(); // Recarrega para confirmar
+            } catch(e) { alert("Erro ao salvar! Verifique a conexão."); }
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        async function removerItem(tipo, idx) {
+            if(confirm("Deseja realmente excluir?")) {
+                const chave = (tipo === 'regular') ? 'regular' : tipo;
+                db[chave].splice(idx, 1);
+                await sincronizar();
+            }
+        }
+
+        function abrirGestaoAlunos() {
+            const sel = document.getElementById('alGrade');
+            sel.innerHTML = db.regular.map(s => `<option>${s.grade}</option>`).join('');
+            renderAlunos();
+            document.getElementById('modalGestaoAlunos').style.display = 'flex';
+        }
+
+        function renderAlunos() {
+            const tb = document.getElementById('listaAlunos'); tb.innerHTML = "";
+            db.alunos.forEach((a, i) => {
+                tb.innerHTML += `<tr><td>${a.matricula}</td><td style="text-align:left">${a.nome}</td><td>${a.grade}</td><td>${a.serie}</td><td>${fmtD(a.inicio)}</td><td>${fmtD(a.termino)}</td>
+                <td><button class="btn-icon" style="color:orange" onclick="abrirEdicao('alunos',${i})"><i class="fa fa-edit"></i></button>
+                <button class="btn-icon" style="color:red" onclick="removerItem('alunos',${i})"><i class="fa fa-trash"></i></button></td></tr>`;
+            });
+        }
+
+        function filtrarAlunos() {
+            const f = val('filtroAlu').toUpperCase();
+            const rows = document.getElementById('listaAlunos').getElementsByTagName('tr');
+            for (let r of rows) { r.style.display = r.innerText.toUpperCase().includes(f) ? "" : "none"; }
         }
 
         function fmtD(d) { if(!d || d === "---") return "---"; try { return d.split('T')[0].split('-').reverse().join('/'); } catch(e) { return d; } }
