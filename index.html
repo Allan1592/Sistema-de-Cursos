@@ -60,9 +60,11 @@
         
         .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
         .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
-        .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 140px; }
+        .fg-cur-carga { width: 90px; }
+        .fg-cur-data, .fg-sup-per, .fg-sup-data { width: 140px; }
         .fg-sup-sala { width: 100px; }
         .fg-sup-alunos { width: 110px; }
+        .fg-cur-part { width: 85px; }
 
         label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
         input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
@@ -112,11 +114,19 @@
         <div class="form-row">
             <div class="form-group fg-cur-nome"><label>Nome do curso *</label><input type="text" id="curNome"></div>
             <div class="form-group fg-cur-tipo"><label>Tipo de curso *</label>
-                <select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select>
+                <select id="curTipo">
+                    <option value="">Selecione...</option>
+                    <option>Profissionalizante</option>
+                    <option>PROET</option>
+                    <option>TELEPORT</option>
+                    <option>Atividades Complementares</option>
+                    <option>Cultural</option>
+                    <option>Lazer</option>
+                </select>
             </div>
-            <div class="form-group fg-cur-carga"><label>Carga horária *</label><input type="text" id="curCarga"></div>
+            <div class="form-group fg-cur-carga"><label>Carga horária *</label><input type="number" id="curCarga" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
             <div class="form-group fg-cur-data"><label>Data de início *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-data" style="width: 120px;"><label>Nº de participantes *</label><input type="number" id="curPart"></div>
+            <div class="form-group fg-cur-part"><label>Nº Partic. *</label><input type="number" id="curPart" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
             <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
@@ -215,11 +225,10 @@
             tbody.innerHTML = "";
             db[tipo].forEach((c, i) => {
                 if(tipo === 'cursos') {
-                    // Se concluintes for 0 ou vazio, deixa em branco
-                    const concluintesExibir = (c.conc && c.conc != "0") ? c.conc : "";
+                    const concluintesExibir = (c.conc && c.conc != "0") ? c.conc : "---";
                     
                     tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${concluintesExibir}</td>
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}h</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${concluintesExibir}</td>
                         <td><button class="btn-acao" onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
                         <button class="btn-acao" onclick="remover(${i}, 'cursos')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 } else {
@@ -281,12 +290,22 @@
                 campos.innerHTML = `
                 <div style="margin-bottom:10px;"><label>Nome do curso</label><input type="text" id="mNome" value="${item.nome}"></div>
                 <div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>Tipo</label><select id="mTipo"><option>${item.tipo}</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
-                    <div style="flex:1;"><label>Carga horária</label><input type="text" id="mCarga" value="${item.carga}"></div>
+                    <div style="flex:1;"><label>Tipo</label>
+                        <select id="mTipo">
+                            <option>${item.tipo}</option>
+                            <option>Profissionalizante</option>
+                            <option>PROET</option>
+                            <option>TELEPORT</option>
+                            <option>Atividades Complementares</option>
+                            <option>Cultural</option>
+                            <option>Lazer</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;"><label>Carga horária</label><input type="number" id="mCarga" value="${item.carga}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
                 </div>
                 <div style="display:flex; gap:10px; margin-bottom:15px;">
                     <div style="flex:1;"><label>Data de início</label><input type="date" id="mInicio" value="${item.inicio}"></div>
-                    <div style="flex:1;"><label>Participantes</label><input type="number" id="mPart" value="${item.part}"></div>
+                    <div style="flex:1;"><label>Participantes</label><input type="number" id="mPart" value="${item.part}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
                 </div>
                 <hr style="margin: 15px 0; border: 0.5px solid #eee;">
                 <div style="background:#fdf2f2; padding:12px; border-radius:8px; border: 1px solid #feb2b2; margin-bottom:10px;">
@@ -324,14 +343,12 @@
                 const qtdC = document.getElementById('mQtd').value;
                 const dataT = document.getElementById('mTermino').value;
 
-                // Salva informações básicas (sempre permitido)
                 db.cursos[i].nome = document.getElementById('mNome').value.toUpperCase();
                 db.cursos[i].tipo = document.getElementById('mTipo').value;
                 db.cursos[i].carga = document.getElementById('mCarga').value;
                 db.cursos[i].inicio = document.getElementById('mInicio').value;
                 db.cursos[i].part = document.getElementById('mPart').value;
 
-                // Validação de conclusão
                 if(isConc && (!dataT || !qtdC)) {
                     alert("Para marcar como concluído, preencha a Data de Término e Concluintes!");
                     return;
