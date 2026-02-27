@@ -25,13 +25,11 @@
             min-height: 100vh; overflow-x: hidden; 
         }
 
-        /* Header padrão do seu sistema */
         #main-header { text-align: center; padding: 30px 10px; flex-shrink: 0; }
         .logo-placeholder { font-size: 3.5rem; margin-bottom: 10px; display: block; }
         h2 { color: var(--dark); font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { color: #666; font-size: 1rem; margin-top: 5px; font-weight: 500; }
 
-        /* Menu em Grid estilo Dashboard */
         #main-menu { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
@@ -42,19 +40,10 @@
         }
 
         .card-btn { 
-            height: 150px; 
-            border: none; 
-            border-radius: 12px; 
-            color: white; 
-            font-weight: bold; 
-            font-size: 1.1rem;
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-            transition: 0.3s; 
+            height: 150px; border: none; border-radius: 12px; color: white; 
+            font-weight: bold; font-size: 1.1rem; cursor: pointer; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.3s; 
         }
         
         .card-btn i { font-size: 2.5rem; margin-bottom: 15px; }
@@ -65,7 +54,6 @@
         .btn-azul { background: var(--azul); }
         .btn-roxo { background: var(--roxo); }
 
-        /* Estilo das Telas de Conteúdo */
         .content-card { 
             width: 95%; max-width: 1300px; background: white; border-radius: 12px; 
             padding: 25px; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
@@ -78,34 +66,34 @@
             border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 20px; align-self: flex-start;
         }
 
-        /* Formulários e Inputs */
         .form-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 200px; }
         label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--dark); }
         input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+        input:focus { border-color: var(--verde); outline: none; box-shadow: 0 0 5px rgba(45, 147, 68, 0.2); }
 
         .actions-bar { display: flex; gap: 10px; margin: 20px 0; align-items: center; flex-wrap: wrap; }
         .btn-std { padding: 12px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-        .btn-std:active { transform: scale(0.98); }
 
-        /* Tabela igual ao seu sistema de Rateio */
         .table-wrapper { width: 100%; max-height: 500px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; }
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 15px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.85rem; }
         tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.9rem; }
-        tbody tr:hover { background-color: #fcfcfc; }
         
         .linha-concluida { background-color: #fff1f2 !important; }
         .badge-concluido { background: var(--vermelho); color: white; font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; font-weight: bold; margin-left: 8px; }
 
-        /* Modal */
         #modalEdicao { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; }
 
         footer { text-align: center; padding: 25px; color: #777; font-size: 0.9rem; margin-top: auto; }
+        
+        #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
     </style>
 </head>
 <body>
+
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Sincronizando com Google Sheets...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -125,10 +113,11 @@
         <h3 style="color:var(--verde); margin-bottom:20px; font-size: 1.5rem;">Painel de Cursos</h3>
         
         <div class="form-row">
-            <div class="form-group" style="flex: 2;"><label>NOME DO CURSO</label><input type="text" id="curNome" placeholder="Ex: Pintor de Obras"></div>
+            <div class="form-group" style="flex: 2;"><label>NOME DO CURSO *</label><input type="text" id="curNome" placeholder="Ex: ELETRICISTA"></div>
             <div class="form-group">
-                <label>TIPO</label>
+                <label>TIPO *</label>
                 <select id="curTipo">
+                    <option value="">Selecione...</option>
                     <option>Profissionalizante</option>
                     <option>PROET</option>
                     <option>TELEPORT</option>
@@ -136,42 +125,26 @@
                     <option>Lazer</option>
                 </select>
             </div>
-            <div class="form-group"><label>CARGA HORÁRIA</label><input type="text" id="curCarga" placeholder="Ex: 160h"></div>
+            <div class="form-group"><label>CARGA HORÁRIA *</label><input type="text" id="curCarga" placeholder="Ex: 160h"></div>
         </div>
         <div class="form-row">
-            <div class="form-group"><label>DATA INÍCIO</label><input type="date" id="curInicio"></div>
-            <div class="form-group"><label>TÉRMINO PREVISTO</label><input type="text" value="Editar na conclusão" disabled></div>
-            <div class="form-group"><label>Nº PARTICIPANTES</label><input type="number" id="curPart"></div>
+            <div class="form-group"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
+            <div class="form-group"><label>Nº PARTICIPANTES *</label><input type="number" id="curPart" placeholder="0"></div>
         </div>
 
         <div class="actions-bar">
-            <button class="btn-std btn-verde" onclick="cadastrarCurso()"><i class="fa fa-plus"></i> Cadastrar Curso</button>
-            <div class="form-group" style="max-width: 250px; margin-left: 20px;">
-                <label>FILTRAR STATUS</label>
-                <select id="filtroStatus" onchange="atualizarTabela()">
-                    <option value="todos">Todos os Registros</option>
-                    <option value="ativos">Apenas Ativos</option>
-                    <option value="concluidos">Apenas Concluídos</option>
-                </select>
-            </div>
-            <button class="btn-std" style="background:var(--vermelho); margin-left: auto;" onclick="limparTudo()"><i class="fa fa-trash"></i> Limpar Tudo</button>
+            <button class="btn-std btn-verde" onclick="validarECadastrar()"><i class="fa fa-save"></i> Salvar Curso</button>
+            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <option value="todos">Ver Todos</option>
+                <option value="ativos">Apenas Ativos</option>
+                <option value="concluidos">Apenas Concluídos</option>
+            </select>
+            <button class="btn-std" style="background:var(--vermelho); margin-left: auto;" onclick="limparTudo()"><i class="fa fa-trash"></i> Limpar Banco</button>
         </div>
 
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr>
-                        <th>Nº</th>
-                        <th style="text-align: left;">CURSO</th>
-                        <th>TIPO</th>
-                        <th>CARGA</th>
-                        <th>INÍCIO</th>
-                        <th>TÉRMINO</th>
-                        <th>PART.</th>
-                        <th>CONC.</th>
-                        <th>AÇÕES</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Nº</th><th style="text-align: left;">CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr></thead>
                 <tbody id="listaCursos"></tbody>
             </table>
         </div>
@@ -179,40 +152,26 @@
 
     <div id="modalEdicao">
         <div class="modal-content">
-            <h4 id="modalTitulo" style="margin-bottom:20px; color: var(--dark); border-bottom: 2px solid var(--verde); padding-bottom: 10px;">Finalizar Curso</h4>
+            <h4 id="modalTitulo" style="margin-bottom:20px; color: var(--dark);">Finalizar Curso</h4>
             <input type="hidden" id="editIndex">
-            
-            <label style="display:flex; align-items:center; gap:12px; margin-bottom:20px; cursor:pointer; background: #f9f9f9; padding: 10px; border-radius: 8px;">
-                <input type="checkbox" id="checkConcluido" style="width:20px; height:20px;"> 
-                <strong>Marcar como Concluído</strong>
-            </label>
-
-            <div class="form-group" style="margin-bottom:15px;">
-                <label>DATA DE TÉRMINO REAL</label>
-                <input type="date" id="curTerminoModal">
-            </div>
-
-            <div class="form-group" style="margin-bottom:25px;">
-                <label>QTD. DE CONCLUINTES</label>
-                <input type="number" id="curConcModal" placeholder="0">
-            </div>
-
-            <div style="display:flex; gap:10px;">
-                <button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Salvar</button>
-                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
-            </div>
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="checkConcluido"> <b>Curso Concluído?</b></label>
+            <div class="form-group" style="margin-bottom:15px;"><label>DATA TÉRMINO REAL</label><input type="date" id="curTerminoModal"></div>
+            <div class="form-group" style="margin-bottom:20px;"><label>QTD CONCLUINTES</label><input type="number" id="curConcModal" placeholder="0"></div>
+            <div style="display:flex; gap:10px;"><button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Confirmar</button><button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button></div>
         </div>
     </div>
 
     <footer>Idealizado por: <b>Allan Ramos | Policial Penal | CPP II de Bauru</b></footer>
 
     <script>
+        const URL_SCRIPT = "SUA_URL_AQUI"; // Allan, troque pela URL do seu Apps Script
         let bancoDados = [];
 
-        function abrir(id) { 
+        async function abrir(id) { 
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('main-header').style.display = 'none';
             document.getElementById(id).classList.add('active'); 
+            if(id === 'cursos') await carregarDoGoogle();
         }
 
         function voltarAoMenu() { 
@@ -221,59 +180,78 @@
             document.getElementById('main-header').style.display = 'block';
         }
 
-        function formatarDataBR(dataISO) {
-            if (!dataISO) return "---";
-            const partes = dataISO.split("-");
-            return partes.length === 3 ? `${partes[2]}/${partes[1]}/${partes[0]}` : dataISO;
-        }
-
-        function cadastrarCurso() {
+        // NOVA FUNÇÃO DE VALIDAÇÃO RIGOROSA
+        async function validarECadastrar() {
             const nome = document.getElementById('curNome').value.trim();
-            if(!nome) return alert("Informe o nome do curso.");
-            
-            const curso = {
+            const tipo = document.getElementById('curTipo').value;
+            const carga = document.getElementById('curCarga').value.trim();
+            const inicio = document.getElementById('curInicio').value;
+            const part = document.getElementById('curPart').value;
+
+            // Verifica se algum campo está vazio
+            if (!nome || !tipo || !carga || !inicio || !part) {
+                alert("ERRO: Todos os campos com asterisco (*) são obrigatórios!");
+                return;
+            }
+
+            const novo = {
                 nome: nome.toUpperCase(),
-                tipo: document.getElementById('curTipo').value,
-                carga: document.getElementById('curCarga').value || '---',
-                inicio: document.getElementById('curInicio').value,
+                tipo: tipo,
+                carga: carga,
+                inicio: inicio,
                 termino: "", 
-                part: document.getElementById('curPart').value || 0,
+                part: part,
                 conc: "", 
                 concluido: false
             };
             
-            bancoDados.push(curso);
-            atualizarTabela();
+            bancoDados.push(novo);
+            await salvarNoGoogle();
             limparForm();
+        }
+
+        async function salvarNoGoogle() {
+            document.getElementById('loading').style.display = 'flex';
+            try {
+                // Simulação de salvamento - no seu caso usará o fetch como no Rateio
+                await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ acao: 'salvarCursos', dados: bancoDados })
+                });
+                atualizarTabela();
+            } catch (e) { console.error(e); }
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        async function carregarDoGoogle() {
+            document.getElementById('loading').style.display = 'flex';
+            try {
+                const res = await fetch(URL_SCRIPT);
+                const data = await res.json();
+                bancoDados = data.cursos || [];
+                atualizarTabela();
+            } catch (e) { console.log("Sem dados ou erro de conexão."); }
+            document.getElementById('loading').style.display = 'none';
         }
 
         function atualizarTabela() {
             const tbody = document.getElementById('listaCursos');
             const filtro = document.getElementById('filtroStatus').value;
             tbody.innerHTML = "";
-
             bancoDados.forEach((c, i) => {
                 if(filtro === 'ativos' && c.concluido) return;
                 if(filtro === 'concluidos' && !c.concluido) return;
+                
+                const dataFmt = c.inicio ? c.inicio.split('-').reverse().join('/') : '---';
+                const dataTermFmt = c.termino ? c.termino.split('-').reverse().join('/') : '---';
 
-                const classe = c.concluido ? 'linha-concluida' : '';
-                const badge = c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : '';
-
-                tbody.innerHTML += `
-                    <tr class="${classe}">
-                        <td>${i+1}</td>
-                        <td style="text-align: left;"><b>${c.nome}</b>${badge}</td>
-                        <td>${c.tipo}</td>
-                        <td>${c.carga}</td>
-                        <td>${formatarDataBR(c.inicio)}</td>
-                        <td>${formatarDataBR(c.termino)}</td>
-                        <td>${c.part}</td>
-                        <td>${c.conc || '---'}</td>
-                        <td>
-                            <button onclick="abrirModal(${i})" style="border:none; background:none; cursor:pointer; color:var(--laranja); font-size:1.2rem;"><i class="fa fa-edit"></i></button>
-                            <button onclick="removerIndividual(${i})" style="border:none; background:none; cursor:pointer; color:var(--vermelho); font-size:1.2rem; margin-left:10px;"><i class="fa fa-trash"></i></button>
-                        </td>
-                    </tr>`;
+                tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
+                    <td>${i+1}</td>
+                    <td style="text-align: left;"><b>${c.nome}</b> ${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td>
+                    <td>${c.tipo}</td><td>${c.carga}</td><td>${dataFmt}</td><td>${dataTermFmt}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                    <td><button onclick="abrirModal(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-edit"></i></button></td>
+                </tr>`;
             });
         }
 
@@ -287,46 +265,38 @@
             document.getElementById('modalEdicao').style.display = 'flex';
         }
 
-        function salvarAlteracoes() {
+        async function salvarAlteracoes() {
             const i = document.getElementById('editIndex').value;
-            const isChecked = document.getElementById('checkConcluido').checked;
-            const dataTermino = document.getElementById('curTerminoModal').value;
-            const qtdConc = document.getElementById('curConcModal').value;
+            const concluido = document.getElementById('checkConcluido').checked;
+            const dataT = document.getElementById('curTerminoModal').value;
+            const qtdC = document.getElementById('curConcModal').value;
 
-            if(isChecked && (!dataTermino || !qtdConc)) {
-                alert("Para concluir, informe a data de término e a quantidade de concluintes.");
+            if (concluido && (!dataT || !qtdC)) {
+                alert("Para concluir, preencha a Data de Término e a Qtd de Concluintes.");
                 return;
             }
 
-            bancoDados[i].concluido = isChecked;
-            bancoDados[i].termino = dataTermino;
-            bancoDados[i].conc = isChecked ? qtdConc : "";
+            bancoDados[i].concluido = concluido;
+            bancoDados[i].termino = dataT;
+            bancoDados[i].conc = concluido ? qtdC : "";
             
-            atualizarTabela();
             fecharModal();
+            await salvarNoGoogle();
         }
 
         function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; }
-
-        function removerIndividual(i) {
-            if(confirm("Deseja excluir este registro?")) {
-                bancoDados.splice(i, 1);
-                atualizarTabela();
-            }
-        }
-
-        function limparTudo() {
-            if(bancoDados.length > 0 && confirm("ATENÇÃO: Deseja apagar TODOS os registros?")) {
-                bancoDados = [];
-                atualizarTabela();
-            }
-        }
-
         function limparForm() {
             document.getElementById('curNome').value = "";
+            document.getElementById('curTipo').value = "";
             document.getElementById('curCarga').value = "";
             document.getElementById('curInicio').value = "";
             document.getElementById('curPart').value = "";
+        }
+        function limparTudo() {
+            if(confirm("CUIDADO: Isso apagará TODOS os dados da planilha. Confirma?")) {
+                bancoDados = [];
+                salvarNoGoogle();
+            }
         }
     </script>
 </body>
