@@ -55,9 +55,16 @@
             border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 15px; align-self: flex-start;
         }
 
-        /* --- FORMULÁRIO SUPERIOR --- */
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
+        /* Ajustes de largura Cursos */
+        .fg-cur-nome { flex: 3; min-width: 250px; }
+        .fg-cur-tipo { width: 180px; }
+        .fg-cur-carga { width: 100px; }
+        .fg-cur-data { width: 155px; }
+        .fg-cur-part { width: 100px; }
+
+        /* Ajustes de largura Superior */
         .fg-sup-nome { flex: 2; min-width: 200px; }
         .fg-sup-grau { width: 130px; }
         .fg-sup-inst { flex: 1.5; min-width: 180px; }
@@ -72,14 +79,15 @@
         .btn-std { padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.85rem; }
         .btn-limpar { background: #95a5a6; }
 
-        /* --- TABELA --- */
         .table-wrapper { width: 100%; max-height: 440px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; }
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.75rem; }
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
         
-        /* MODAL */
-        #modalSuperior { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .linha-concluida { background-color: #fff1f2 !important; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; }
+
+        #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; }
 
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
@@ -88,7 +96,7 @@
 </head>
 <body>
 
-    <div id="loading"><i class="fa fa-spinner fa-spin fa-2x" style="color:var(--azul)"></i><p style="margin-top:10px; font-size:0.9rem; font-weight:bold;">PROCESSANDO...</p></div>
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-2x" style="color:var(--dark)"></i><p style="margin-top:10px; font-size:0.9rem; font-weight:bold;">PROCESSANDO...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -103,68 +111,66 @@
         <button class="card-btn btn-roxo" onclick="abrir('projetos')"><i class="fa fa-folder-open"></i>PROJETOS / JORNADA</button>
     </div>
 
+    <div id="cursos" class="content-card">
+        <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
+        <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
+        <div class="form-row">
+            <div class="form-group fg-cur-nome"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
+            <div class="form-group fg-cur-tipo"><label>TIPO *</label>
+                <select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select>
+            </div>
+            <div class="form-group fg-cur-carga"><label>CARGA *</label><input type="text" id="curCarga"></div>
+            <div class="form-group fg-cur-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
+            <div class="form-group fg-cur-part"><label>Nº PART. *</label><input type="number" id="curPart"></div>
+            <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr>
+                </thead>
+                <tbody id="listaCursos"></tbody>
+            </table>
+        </div>
+    </div>
+
     <div id="superior" class="content-card">
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
-        
         <div class="form-row">
-            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome" placeholder="DIREITO"></div>
+            <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome"></div>
             <div class="form-group fg-sup-grau"><label>GRAU *</label>
-                <select id="supGrau">
-                    <option value="">Selecione...</option>
-                    <option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option>
-                </select>
+                <select id="supGrau"><option value="">Selecione...</option><option>Tecnólogo</option><option>Graduação</option><option>Pós</option><option>Mestrado</option><option>Doutorado</option></select>
             </div>
             <div class="form-group fg-sup-inst"><label>INSTITUIÇÃO *</label><input type="text" id="supInst"></div>
             <div class="form-group fg-sup-per"><label>PERÍODO *</label>
-                <select id="supPer">
-                    <option value="">Selecione...</option>
-                    <option>Matutino</option><option>Vespertino</option><option>Noturno</option>
-                </select>
+                <select id="supPer"><option value="">Selecione...</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
             </div>
             <div class="form-group fg-sup-sala"><label>SALA *</label><input type="text" id="supSala" maxlength="1"></div>
             <div class="form-group fg-sup-alunos"><label>ALUNOS *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
             <div class="form-group fg-sup-data"><label>DATA INÍCIO *</label><input type="date" id="supInicio"></div>
-            
-            <button class="btn-std btn-azul" style="height:38px;" onclick="validarECadastrarSuperior()"><i class="fa fa-save"></i> Salvar</button>
-            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparSup()"><i class="fa fa-eraser"></i> Limpar</button>
+            <button class="btn-std btn-azul" style="height:38px;" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
-
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr>
-                        <th style="width: 30px;">Nº</th>
-                        <th style="text-align: left;">CURSO</th>
-                        <th style="width: 100px;">GRAU</th>
-                        <th>INSTITUIÇÃO</th>
-                        <th style="width: 90px;">PERÍODO</th>
-                        <th style="width: 40px;">SL</th>
-                        <th style="width: 40px;">AL</th>
-                        <th style="width: 90px;">INÍCIO</th>
-                        <th style="width: 90px;">TÉRMINO</th>
-                        <th style="width: 80px;">AÇÕES</th>
-                    </tr>
+                    <tr><th>Nº</th><th style="text-align:left">CURSO</th><th>GRAU</th><th>INSTITUIÇÃO</th><th>PER.</th><th>SL</th><th>AL</th><th>INÍCIO</th><th>TÉRMINO</th><th>AÇÕES</th></tr>
                 </thead>
                 <tbody id="listaSuperior"></tbody>
             </table>
         </div>
     </div>
 
-    <div id="modalSuperior">
+    <div id="modalGeral">
         <div class="modal-content">
-            <h4 id="supModalTitulo" style="margin-bottom:15px; border-bottom: 2px solid var(--azul); padding-bottom:5px; font-size:1rem;">Editar Curso</h4>
-            <input type="hidden" id="editSupIndex">
-            <div style="margin-bottom:10px;"><label>NOME DO CURSO</label><input type="text" id="editSupNome"></div>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <div style="flex:1;"><label>SALA</label><input type="text" id="editSupSala" maxlength="1"></div>
-                <div style="flex:1;"><label>Nº ALUNOS</label><input type="number" id="editSupAlunos"></div>
-            </div>
-            <div style="margin-bottom:15px;"><label>DATA DE TÉRMINO</label><input type="date" id="editSupTermino"></div>
-            
-            <div style="display:flex; gap:10px;">
-                <button class="btn-std btn-azul" style="flex:1;" onclick="salvarEdicaoSuperior()">Confirmar</button>
-                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModalSup()">Sair</button>
+            <h4 id="modalTitulo" style="margin-bottom:15px; border-bottom: 2px solid var(--dark); padding-bottom:5px;">Editar</h4>
+            <input type="hidden" id="editIdx"><input type="hidden" id="editTipo">
+            <div id="camposEdicao"></div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button class="btn-std" id="btnConfirmarModal" style="flex:1; background:var(--verde)">Confirmar</button>
+                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
             </div>
         </div>
     </div>
@@ -173,13 +179,14 @@
 
     <script>
         const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyIGkx30aKhlB1xMkHsKNL_yd9i3zE3D3KxH1jr_RWruxyNHT_DwTIVCE2T95AzBqsc0w/exec"; 
-        let dbSuperior = [];
+        let db = { cursos: [], superior: [] };
 
         async function abrir(id) { 
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('main-header').style.display = 'none';
+            document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active'));
             document.getElementById(id).classList.add('active'); 
-            if(id === 'superior') await carregarSuperior();
+            await carregarDados();
         }
 
         function voltarAoMenu() { 
@@ -189,93 +196,105 @@
         }
 
         function tratarData(d) {
-            if(!d) return '---';
+            if(!d || d === "") return '---';
             let limpa = d.split('T')[0]; 
             return limpa.split('-').reverse().join('/');
         }
 
-        async function validarECadastrarSuperior() {
-            const dados = {
-                nome: document.getElementById('supNome').value.toUpperCase(),
-                grau: document.getElementById('supGrau').value,
-                inst: document.getElementById('supInst').value.toUpperCase(),
-                per: document.getElementById('supPer').value,
-                sala: document.getElementById('supSala').value,
-                alunos: document.getElementById('supAlunos').value,
-                inicio: document.getElementById('supInicio').value,
-                termino: "" 
-            };
-            if (!dados.nome || !dados.grau || !dados.inicio) return alert("Preencha Nome, Grau e Início!");
-            dbSuperior.push(dados);
-            await salvarSuperior();
-            limparSup();
-        }
-
-        function atualizarTabelaSuperior() {
-            const tbody = document.getElementById('listaSuperior');
-            tbody.innerHTML = "";
-            dbSuperior.forEach((c, i) => {
-                tbody.innerHTML += `<tr>
-                    <td>${i+1}</td>
-                    <td style="text-align: left;"><b>${c.nome}</b></td>
-                    <td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td>
-                    <td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
-                    <td>
-                        <button onclick="abrirModalSup(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem; margin-right:8px;"><i class="fa fa-edit"></i></button>
-                        <button onclick="removerSuperior(${i})" style="color:var(--vermelho); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>`;
-            });
-        }
-
-        function abrirModalSup(i) {
-            const c = dbSuperior[i];
-            document.getElementById('editSupIndex').value = i;
-            document.getElementById('supModalTitulo').innerText = "Editar: " + c.nome;
-            document.getElementById('editSupNome').value = c.nome;
-            document.getElementById('editSupSala').value = c.sala;
-            document.getElementById('editSupAlunos').value = c.alunos;
-            document.getElementById('editSupTermino').value = c.termino ? c.termino.split('T')[0] : "";
-            document.getElementById('modalSuperior').style.display = 'flex';
-        }
-
-        async function salvarEdicaoSuperior() {
-            const i = document.getElementById('editSupIndex').value;
-            dbSuperior[i].nome = document.getElementById('editSupNome').value.toUpperCase();
-            dbSuperior[i].sala = document.getElementById('editSupSala').value;
-            dbSuperior[i].alunos = document.getElementById('editSupAlunos').value;
-            dbSuperior[i].termino = document.getElementById('editSupTermino').value;
-            fecharModalSup();
-            await salvarSuperior();
-        }
-
-        async function removerSuperior(i) {
-            if(confirm("Deseja excluir este registro?")) { dbSuperior.splice(i,1); await salvarSuperior(); }
-        }
-
-        function fecharModalSup() { document.getElementById('modalSuperior').style.display = 'none'; }
-        function limparSup() { 
-            ['supNome','supInst','supSala','supAlunos','supInicio'].forEach(id => document.getElementById(id).value=""); 
-            document.getElementById('supGrau').value=""; document.getElementById('supPer').value=""; 
-        }
-
-        async function salvarSuperior() {
-            document.getElementById('loading').style.display = 'flex';
-            try {
-                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', superior: dbSuperior, cursos: [] }) });
-                atualizarTabelaSuperior();
-            } catch (e) { console.error(e); }
-            document.getElementById('loading').style.display = 'none';
-        }
-
-        async function carregarSuperior() {
+        async function carregarDados() {
             document.getElementById('loading').style.display = 'flex';
             try {
                 const res = await fetch(URL_SCRIPT);
                 const data = await res.json();
-                dbSuperior = data.superior || [];
-                atualizarTabelaSuperior();
-            } catch (e) { console.log("Erro ao carregar."); }
+                db.cursos = data.cursos || [];
+                db.superior = data.superior || [];
+                atualizarTabela('cursos');
+                atualizarTabela('superior');
+            } catch (e) { console.log("Erro ao carregar dados."); }
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function atualizarTabela(tipo) {
+            const tbody = document.getElementById(tipo === 'cursos' ? 'listaCursos' : 'listaSuperior');
+            if(!tbody) return;
+            tbody.innerHTML = "";
+            db[tipo].forEach((c, i) => {
+                if(tipo === 'cursos') {
+                    tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                        <td><button onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
+                        <button onclick="remover(${i}, 'cursos')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
+                } else {
+                    tbody.innerHTML += `<tr>
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
+                        <td><button onclick="abrirEdicao('superior', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
+                        <button onclick="remover(${i}, 'superior')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
+                }
+            });
+        }
+
+        async function salvarNovo(tipo) {
+            let item = {};
+            if(tipo === 'cursos') {
+                item = { nome: document.getElementById('curNome').value.toUpperCase(), tipo: document.getElementById('curTipo').value, carga: document.getElementById('curCarga').value, inicio: document.getElementById('curInicio').value, part: document.getElementById('curPart').value, termino: "", conc: "", concluido: false };
+            } else {
+                item = { nome: document.getElementById('supNome').value.toUpperCase(), grau: document.getElementById('supGrau').value, inst: document.getElementById('supInst').value.toUpperCase(), per: document.getElementById('supPer').value, sala: document.getElementById('supSala').value, alunos: document.getElementById('supAlunos').value, inicio: document.getElementById('supInicio').value, termino: "" };
+            }
+            if(!item.nome || !item.inicio) return alert("Preencha ao menos Nome e Data!");
+            db[tipo].push(item);
+            await sincronizar();
+            limparForm(tipo);
+        }
+
+        function abrirEdicao(tipo, i) {
+            const item = db[tipo][i];
+            document.getElementById('editIdx').value = i;
+            document.getElementById('editTipo').value = tipo;
+            document.getElementById('modalTitulo').innerText = "Editar: " + item.nome;
+            const campos = document.getElementById('camposEdicao');
+            
+            if(tipo === 'cursos') {
+                campos.innerHTML = `<label>CONCLUÍDO?</label><input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:20px; height:20px; margin-bottom:10px;"><br>
+                <label>DATA TÉRMINO</label><input type="date" id="mTermino" value="${item.termino || ''}"><br>
+                <label>QTD CONCLUINTES</label><input type="number" id="mQtd" value="${item.conc || ''}">`;
+            } else {
+                campos.innerHTML = `<label>SALA</label><input type="text" id="mSala" value="${item.sala}" maxlength="1"><br>
+                <label>Nº ALUNOS</label><input type="number" id="mAlunos" value="${item.alunos}"><br>
+                <label>DATA TÉRMINO</label><input type="date" id="mTermino" value="${item.termino || ''}">`;
+            }
+            document.getElementById('btnConfirmarModal').onclick = confirmEdicao;
+            document.getElementById('modalGeral').style.display = 'flex';
+        }
+
+        async function confirmEdicao() {
+            const i = document.getElementById('editIdx').value;
+            const tipo = document.getElementById('editTipo').value;
+            if(tipo === 'cursos') {
+                db.cursos[i].concluido = document.getElementById('mConc').checked;
+                db.cursos[i].termino = document.getElementById('mTermino').value;
+                db.cursos[i].conc = document.getElementById('mQtd').value;
+            } else {
+                db.superior[i].sala = document.getElementById('mSala').value;
+                db.superior[i].alunos = document.getElementById('mAlunos').value;
+                db.superior[i].termino = document.getElementById('mTermino').value;
+            }
+            fecharModal();
+            await sincronizar();
+        }
+
+        async function remover(i, tipo) { if(confirm("Excluir?")) { db[tipo].splice(i,1); await sincronizar(); } }
+        function fecharModal() { document.getElementById('modalGeral').style.display = 'none'; }
+        function limparForm(tipo) { 
+            const prefixo = tipo === 'cursos' ? 'cur' : 'sup';
+            document.querySelectorAll(`[id^="${prefixo}"]`).forEach(el => el.value = "");
+        }
+
+        async function sincronizar() {
+            document.getElementById('loading').style.display = 'flex';
+            try {
+                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', cursos: db.cursos, superior: db.superior }) });
+                atualizarTabela('cursos'); atualizarTabela('superior');
+            } catch (e) { alert("Erro ao salvar."); }
             document.getElementById('loading').style.display = 'none';
         }
     </script>
