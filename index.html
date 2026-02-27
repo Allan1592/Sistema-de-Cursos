@@ -7,36 +7,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --verde: #2d9344; 
-            --laranja: #e67e22; 
-            --azul: #3498db; 
-            --roxo: #8b5cf6;
-            --vermelho: #d32f2f; 
-            --cinza-claro: #f4f7f6; 
-            --dark: #2c3e50;
+            --verde: #2d9344; --laranja: #e67e22; --azul: #3498db; --roxo: #8b5cf6;
+            --vermelho: #d32f2f; --cinza-claro: #f4f7f6; --dark: #2c3e50;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: var(--cinza-claro); 
+            font-family: 'Segoe UI', sans-serif; background-color: var(--cinza-claro); 
             display: flex; flex-direction: column; align-items: center; 
             min-height: 100vh; overflow-x: hidden; 
         }
 
-        #main-header { text-align: center; padding: 30px 10px; flex-shrink: 0; }
+        #main-header { text-align: center; padding: 30px 10px; }
         .logo-placeholder { font-size: 3.5rem; margin-bottom: 10px; display: block; }
         h2 { color: var(--dark); font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { color: #666; font-size: 1rem; margin-top: 5px; font-weight: 500; }
 
         #main-menu { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; 
-            width: 95%; 
-            max-width: 1000px; 
-            margin-top: 10px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; width: 95%; max-width: 1000px; margin-top: 10px;
         }
 
         .card-btn { 
@@ -45,7 +35,6 @@
             display: flex; flex-direction: column; align-items: center; 
             justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.3s; 
         }
-        
         .card-btn i { font-size: 2.5rem; margin-bottom: 15px; }
         .card-btn:hover { transform: translateY(-5px); filter: brightness(1.1); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
 
@@ -70,30 +59,46 @@
         .form-group { flex: 1; min-width: 200px; }
         label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: var(--dark); }
         input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
-        input:focus { border-color: var(--verde); outline: none; box-shadow: 0 0 5px rgba(45, 147, 68, 0.2); }
 
         .actions-bar { display: flex; gap: 10px; margin: 20px 0; align-items: center; flex-wrap: wrap; }
         .btn-std { padding: 12px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
 
-        .table-wrapper { width: 100%; max-height: 500px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 15px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.85rem; }
-        tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.9rem; }
+        /* AJUSTE DO SCROLL PARA 8 LINHAS */
+        .table-wrapper { 
+            width: 100%; 
+            max-height: 440px; /* Altura ideal para exibir ~8 linhas + cabeçalho */
+            overflow-y: auto; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            background: #fff;
+        }
         
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        thead th { 
+            position: sticky; top: 0; background: #f8f9fa; z-index: 10; 
+            padding: 15px; border-bottom: 2px solid #dee2e6; text-align: center; 
+            color: var(--dark); font-size: 0.85rem; 
+        }
+        tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        /* Larguras das Colunas para manter simetria */
+        .col-n { width: 50px; }
+        .col-curso { width: 250px; text-align: left !important; }
+        .col-data { width: 110px; }
+
         .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; font-weight: bold; margin-left: 8px; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px; }
 
         #modalEdicao { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; }
 
         footer { text-align: center; padding: 25px; color: #777; font-size: 0.9rem; margin-top: auto; }
-        
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
     </style>
 </head>
 <body>
 
-    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Sincronizando com Google Sheets...</p></div>
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Sincronizando...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -113,38 +118,39 @@
         <h3 style="color:var(--verde); margin-bottom:20px; font-size: 1.5rem;">Painel de Cursos</h3>
         
         <div class="form-row">
-            <div class="form-group" style="flex: 2;"><label>NOME DO CURSO *</label><input type="text" id="curNome" placeholder="Ex: ELETRICISTA"></div>
-            <div class="form-group">
-                <label>TIPO *</label>
-                <select id="curTipo">
-                    <option value="">Selecione...</option>
-                    <option>Profissionalizante</option>
-                    <option>PROET</option>
-                    <option>TELEPORT</option>
-                    <option>Cultural</option>
-                    <option>Lazer</option>
-                </select>
-            </div>
+            <div class="form-group" style="flex: 2;"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
+            <div class="form-group"><label>TIPO *</label><select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
             <div class="form-group"><label>CARGA HORÁRIA *</label><input type="text" id="curCarga" placeholder="Ex: 160h"></div>
         </div>
         <div class="form-row">
             <div class="form-group"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group"><label>Nº PARTICIPANTES *</label><input type="number" id="curPart" placeholder="0"></div>
+            <div class="form-group"><label>Nº PARTICIPANTES *</label><input type="number" id="curPart"></div>
         </div>
 
         <div class="actions-bar">
             <button class="btn-std btn-verde" onclick="validarECadastrar()"><i class="fa fa-save"></i> Salvar Curso</button>
-            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 200px; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 180px; padding: 10px; border-radius: 6px;">
                 <option value="todos">Ver Todos</option>
-                <option value="ativos">Apenas Ativos</option>
-                <option value="concluidos">Apenas Concluídos</option>
+                <option value="ativos">Ativos</option>
+                <option value="concluidos">Concluídos</option>
             </select>
-            <button class="btn-std" style="background:var(--vermelho); margin-left: auto;" onclick="limparTudo()"><i class="fa fa-trash"></i> Limpar Banco</button>
         </div>
 
         <div class="table-wrapper">
             <table>
-                <thead><tr><th>Nº</th><th style="text-align: left;">CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>TÉRMINO</th><th>PART.</th><th>CONC.</th><th>AÇÕES</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th class="col-n">Nº</th>
+                        <th class="col-curso">CURSO</th>
+                        <th>TIPO</th>
+                        <th>CARGA</th>
+                        <th class="col-data">INÍCIO</th>
+                        <th class="col-data">TÉRMINO</th>
+                        <th>PART.</th>
+                        <th>CONC.</th>
+                        <th>AÇÕES</th>
+                    </tr>
+                </thead>
                 <tbody id="listaCursos"></tbody>
             </table>
         </div>
@@ -152,11 +158,11 @@
 
     <div id="modalEdicao">
         <div class="modal-content">
-            <h4 id="modalTitulo" style="margin-bottom:20px; color: var(--dark);">Finalizar Curso</h4>
+            <h4 id="modalTitulo" style="margin-bottom:20px;">Finalizar Curso</h4>
             <input type="hidden" id="editIndex">
             <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="checkConcluido"> <b>Curso Concluído?</b></label>
             <div class="form-group" style="margin-bottom:15px;"><label>DATA TÉRMINO REAL</label><input type="date" id="curTerminoModal"></div>
-            <div class="form-group" style="margin-bottom:20px;"><label>QTD CONCLUINTES</label><input type="number" id="curConcModal" placeholder="0"></div>
+            <div class="form-group" style="margin-bottom:20px;"><label>QTD CONCLUINTES</label><input type="number" id="curConcModal"></div>
             <div style="display:flex; gap:10px;"><button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Confirmar</button><button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button></div>
         </div>
     </div>
@@ -164,7 +170,7 @@
     <footer>Idealizado por: <b>Allan Ramos | Policial Penal | CPP II de Bauru</b></footer>
 
     <script>
-        const URL_SCRIPT = "SUA_URL_AQUI"; // Allan, troque pela URL do seu Apps Script
+        const URL_SCRIPT = "SUA_URL_AQUI"; 
         let bancoDados = [];
 
         async function abrir(id) { 
@@ -180,32 +186,21 @@
             document.getElementById('main-header').style.display = 'block';
         }
 
-        // NOVA FUNÇÃO DE VALIDAÇÃO RIGOROSA
         async function validarECadastrar() {
-            const nome = document.getElementById('curNome').value.trim();
-            const tipo = document.getElementById('curTipo').value;
-            const carga = document.getElementById('curCarga').value.trim();
-            const inicio = document.getElementById('curInicio').value;
-            const part = document.getElementById('curPart').value;
+            const campos = {
+                nome: document.getElementById('curNome').value.trim(),
+                tipo: document.getElementById('curTipo').value,
+                carga: document.getElementById('curCarga').value.trim(),
+                inicio: document.getElementById('curInicio').value,
+                part: document.getElementById('curPart').value
+            };
 
-            // Verifica se algum campo está vazio
-            if (!nome || !tipo || !carga || !inicio || !part) {
-                alert("ERRO: Todos os campos com asterisco (*) são obrigatórios!");
+            if (Object.values(campos).some(v => !v)) {
+                alert("Preencha todos os campos obrigatórios (*)");
                 return;
             }
 
-            const novo = {
-                nome: nome.toUpperCase(),
-                tipo: tipo,
-                carga: carga,
-                inicio: inicio,
-                termino: "", 
-                part: part,
-                conc: "", 
-                concluido: false
-            };
-            
-            bancoDados.push(novo);
+            bancoDados.push({...campos, nome: campos.nome.toUpperCase(), termino: "", conc: "", concluido: false});
             await salvarNoGoogle();
             limparForm();
         }
@@ -213,12 +208,7 @@
         async function salvarNoGoogle() {
             document.getElementById('loading').style.display = 'flex';
             try {
-                // Simulação de salvamento - no seu caso usará o fetch como no Rateio
-                await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify({ acao: 'salvarCursos', dados: bancoDados })
-                });
+                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarCursos', dados: bancoDados }) });
                 atualizarTabela();
             } catch (e) { console.error(e); }
             document.getElementById('loading').style.display = 'none';
@@ -231,7 +221,7 @@
                 const data = await res.json();
                 bancoDados = data.cursos || [];
                 atualizarTabela();
-            } catch (e) { console.log("Sem dados ou erro de conexão."); }
+            } catch (e) { console.log("Erro ou banco vazio."); }
             document.getElementById('loading').style.display = 'none';
         }
 
@@ -243,14 +233,13 @@
                 if(filtro === 'ativos' && c.concluido) return;
                 if(filtro === 'concluidos' && !c.concluido) return;
                 
-                const dataFmt = c.inicio ? c.inicio.split('-').reverse().join('/') : '---';
-                const dataTermFmt = c.termino ? c.termino.split('-').reverse().join('/') : '---';
+                const fmtD = (d) => d ? d.split('-').reverse().join('/') : '---';
 
                 tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
                     <td>${i+1}</td>
-                    <td style="text-align: left;"><b>${c.nome}</b> ${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td>
-                    <td>${c.tipo}</td><td>${c.carga}</td><td>${dataFmt}</td><td>${dataTermFmt}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
-                    <td><button onclick="abrirModal(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-edit"></i></button></td>
+                    <td class="col-curso"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td>
+                    <td>${c.tipo}</td><td>${c.carga}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                    <td><button onclick="abrirModal(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button></td>
                 </tr>`;
             });
         }
@@ -267,37 +256,21 @@
 
         async function salvarAlteracoes() {
             const i = document.getElementById('editIndex').value;
-            const concluido = document.getElementById('checkConcluido').checked;
+            const conc = document.getElementById('checkConcluido').checked;
             const dataT = document.getElementById('curTerminoModal').value;
-            const qtdC = document.getElementById('curConcModal').value;
+            const qtd = document.getElementById('curConcModal').value;
 
-            if (concluido && (!dataT || !qtdC)) {
-                alert("Para concluir, preencha a Data de Término e a Qtd de Concluintes.");
-                return;
-            }
+            if (conc && (!dataT || !qtd)) return alert("Preencha data e concluintes para finalizar.");
 
-            bancoDados[i].concluido = concluido;
+            bancoDados[i].concluido = conc;
             bancoDados[i].termino = dataT;
-            bancoDados[i].conc = concluido ? qtdC : "";
-            
+            bancoDados[i].conc = conc ? qtd : "";
             fecharModal();
             await salvarNoGoogle();
         }
 
         function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; }
-        function limparForm() {
-            document.getElementById('curNome').value = "";
-            document.getElementById('curTipo').value = "";
-            document.getElementById('curCarga').value = "";
-            document.getElementById('curInicio').value = "";
-            document.getElementById('curPart').value = "";
-        }
-        function limparTudo() {
-            if(confirm("CUIDADO: Isso apagará TODOS os dados da planilha. Confirma?")) {
-                bancoDados = [];
-                salvarNoGoogle();
-            }
-        }
+        function limparForm() { ['curNome','curCarga','curInicio','curPart'].forEach(id => document.getElementById(id).value = ""); document.getElementById('curTipo').value = ""; }
     </script>
 </body>
 </html>
