@@ -58,12 +58,13 @@
 
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
+        /* Ajustes de largura dos campos */
         .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
         .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
         .fg-cur-carga { width: 90px; }
         .fg-cur-data, .fg-sup-per, .fg-sup-data { width: 140px; }
-        .fg-sup-sala { width: 100px; }
-        .fg-sup-alunos { width: 110px; }
+        .fg-sup-sala { width: 70px; }
+        .fg-sup-alunos { width: 80px; }
         .fg-cur-part { width: 85px; }
 
         label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
@@ -83,7 +84,7 @@
         .badge-concluido { background: var(--vermelho); color: white; font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; font-weight: bold; margin-left: 8px;}
 
         #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 550px; max-height: 95vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
         .nota-auxiliar { font-size: 0.7rem; color: #555; background: #fff9c4; padding: 8px; border-radius: 4px; border-left: 4px solid #fbc02d; margin-top: 10px; line-height: 1.2; }
 
@@ -112,28 +113,24 @@
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
         <div class="form-row">
-            <div class="form-group fg-cur-nome"><label>Nome do curso *</label><input type="text" id="curNome"></div>
-            <div class="form-group fg-cur-tipo"><label>Tipo de curso *</label>
+            <div class="fg-cur-nome"><label>Nome do curso *</label><input type="text" id="curNome"></div>
+            <div class="fg-cur-tipo"><label>Tipo de curso *</label>
                 <select id="curTipo">
                     <option value="">Selecione...</option>
-                    <option>Profissionalizante</option>
-                    <option>PROET</option>
-                    <option>TELEPORT</option>
-                    <option>Atividades Complementares</option>
-                    <option>Cultural</option>
-                    <option>Lazer</option>
+                    <option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option>
+                    <option>Atividades Complementares</option><option>Cultural</option><option>Lazer</option>
                 </select>
             </div>
-            <div class="form-group fg-cur-carga"><label>Carga horária *</label><input type="number" id="curCarga" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
-            <div class="form-group fg-cur-data"><label>Data de início *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-part"><label>Nº Partic. *</label><input type="number" id="curPart" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
-            <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
-            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
+            <div class="fg-cur-carga"><label>Carga hor.</label><input type="number" id="curCarga" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
+            <div class="fg-cur-data"><label>Início *</label><input type="date" id="curInicio"></div>
+            <div class="fg-cur-part"><label>Nº Partic.</label><input type="number" id="curPart" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
+            <button class="btn-std btn-verde" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn-std btn-limpar" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>Nº</th><th style="text-align:left">Curso</th><th>Tipo</th><th>Carga</th><th>Início</th><th>Término</th><th>Participantes</th><th>Concluintes</th><th>Ações</th></tr>
+                    <tr><th>Nº</th><th style="text-align:left">Curso</th><th>Tipo</th><th>Carga</th><th>Início</th><th>Término</th><th>Partic.</th><th>Concl.</th><th>Ações</th></tr>
                 </thead>
                 <tbody id="listaCursos"></tbody>
             </table>
@@ -144,19 +141,19 @@
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
         <div class="form-row">
-            <div class="form-group fg-sup-nome"><label>Nome do curso *</label><input type="text" id="supNome"></div>
-            <div class="form-group fg-sup-grau"><label>Grau acadêmico *</label>
+            <div class="fg-sup-nome"><label>Nome do curso *</label><input type="text" id="supNome"></div>
+            <div class="fg-sup-grau"><label>Grau acadêmico *</label>
                 <select id="supGrau"><option value="">Selecione...</option><option>Tecnólogo</option><option>Graduação</option><option>Pós-Graduação</option><option>Mestrado</option><option>Doutorado</option></select>
             </div>
-            <div class="form-group fg-sup-inst"><label>Instituição de ensino *</label><input type="text" id="supInst"></div>
-            <div class="form-group fg-sup-per"><label>Período *</label>
+            <div class="fg-sup-inst"><label>Instituição *</label><input type="text" id="supInst"></div>
+            <div class="fg-sup-per"><label>Período *</label>
                 <select id="supPer"><option value="">Selecione...</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
             </div>
-            <div class="form-group fg-sup-sala"><label>Número da sala</label><input type="text" id="supSala"></div>
-            <div class="form-group fg-sup-alunos"><label>Número de alunos</label><input type="number" id="supAlunos"></div>
-            <div class="form-group fg-sup-data"><label>Data de início *</label><input type="date" id="supInicio"></div>
-            <button class="btn-std btn-azul" style="height:38px;" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
-            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
+            <div class="fg-sup-sala"><label>Sala</label><input type="number" id="supSala" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+            <div class="fg-sup-alunos"><label>Alunos</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+            <div class="fg-sup-data"><label>Início *</label><input type="date" id="supInicio"></div>
+            <button class="btn-std btn-azul" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn-std btn-limpar" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
         <div class="table-wrapper">
             <table>
@@ -226,14 +223,13 @@
             db[tipo].forEach((c, i) => {
                 if(tipo === 'cursos') {
                     const concluintesExibir = (c.conc && c.conc != "0") ? c.conc : "---";
-                    
                     tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
                         <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}h</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${concluintesExibir}</td>
                         <td><button class="btn-acao" onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
                         <button class="btn-acao" onclick="remover(${i}, 'cursos')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 } else {
                     tbody.innerHTML += `<tr>
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala || '---'}</td><td>${c.alunos || '---'}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td>
                         <td><button class="btn-acao" onclick="abrirEdicao('superior', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
                         <button class="btn-acao" onclick="remover(${i}, 'superior')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 }
@@ -243,40 +239,20 @@
         async function salvarNovo(tipo) {
             let item = {};
             if(tipo === 'cursos') {
-                const n = document.getElementById('curNome').value.trim();
+                const n = document.getElementById('curNome').value;
                 const t = document.getElementById('curTipo').value;
-                const c = document.getElementById('curCarga').value.trim();
                 const i = document.getElementById('curInicio').value;
-                const p = document.getElementById('curPart').value;
-
-                if(!n || !t || !c || !i || !p) {
-                    alert("Atenção: Todos os campos da seção de Cursos são obrigatórios!");
-                    return;
-                }
-                item = { nome: n.toUpperCase(), tipo: t, carga: c, inicio: i, part: p, termino: "", conc: "", concluido: false };
+                if(!n || !t || !i) return alert("Preencha os campos obrigatórios (*)");
+                item = { nome: n.toUpperCase(), tipo: t, carga: document.getElementById('curCarga').value, inicio: i, part: document.getElementById('curPart').value, termino: "", conc: "", concluido: false };
             } else {
-                item = { 
-                    nome: document.getElementById('supNome').value.toUpperCase(), 
-                    grau: document.getElementById('supGrau').value, 
-                    inst: document.getElementById('supInst').value.toUpperCase(), 
-                    per: document.getElementById('supPer').value, 
-                    sala: document.getElementById('supSala').value, 
-                    alunos: document.getElementById('supAlunos').value, 
-                    inicio: document.getElementById('supInicio').value, 
-                    termino: "" 
-                };
+                const n = document.getElementById('supNome').value;
+                const i = document.getElementById('supInicio').value;
+                if(!n || !i) return alert("Preencha os campos obrigatórios (*)");
+                item = { nome: n.toUpperCase(), grau: document.getElementById('supGrau').value, inst: document.getElementById('supInst').value.toUpperCase(), per: document.getElementById('supPer').value, sala: document.getElementById('supSala').value, alunos: document.getElementById('supAlunos').value, inicio: i, termino: "" };
             }
-            if(!item.nome || !item.inicio) return alert("Preencha ao menos Nome e Data!");
             db[tipo].push(item);
             await sincronizar();
             limparForm(tipo);
-        }
-
-        function toggleConcField() {
-            const check = document.getElementById('mConc').checked;
-            const inputQtd = document.getElementById('mQtd');
-            inputQtd.disabled = !check;
-            if(!check) inputQtd.value = "";
         }
 
         function abrirEdicao(tipo, i) {
@@ -290,45 +266,40 @@
                 campos.innerHTML = `
                 <div style="margin-bottom:10px;"><label>Nome do curso</label><input type="text" id="mNome" value="${item.nome}"></div>
                 <div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>Tipo</label>
-                        <select id="mTipo">
-                            <option>${item.tipo}</option>
-                            <option>Profissionalizante</option>
-                            <option>PROET</option>
-                            <option>TELEPORT</option>
-                            <option>Atividades Complementares</option>
-                            <option>Cultural</option>
-                            <option>Lazer</option>
-                        </select>
-                    </div>
-                    <div style="flex:1;"><label>Carga horária</label><input type="number" id="mCarga" value="${item.carga}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
+                    <div style="flex:1;"><label>Tipo</label><select id="mTipo"><option>${item.tipo}</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Atividades Complementares</option><option>Cultural</option><option>Lazer</option></select></div>
+                    <div style="flex:1;"><label>Carga Horária</label><input type="number" id="mCarga" value="${item.carga}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
                 </div>
                 <div style="display:flex; gap:10px; margin-bottom:15px;">
-                    <div style="flex:1;"><label>Data de início</label><input type="date" id="mInicio" value="${item.inicio}"></div>
-                    <div style="flex:1;"><label>Participantes</label><input type="number" id="mPart" value="${item.part}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
+                    <div style="flex:1;"><label>Data Início</label><input type="date" id="mInicio" value="${item.inicio}"></div>
+                    <div style="flex:1;"><label>Nº Participantes</label><input type="number" id="mPart" value="${item.part}" oninput="if(this.value.length > 3) this.value = this.value.slice(0,3);"></div>
                 </div>
-                <hr style="margin: 15px 0; border: 0.5px solid #eee;">
-                <div style="background:#fdf2f2; padding:12px; border-radius:8px; border: 1px solid #feb2b2; margin-bottom:10px;">
+                <div style="background:#fdf2f2; padding:12px; border-radius:8px; border: 1px solid #feb2b2;">
                     <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                        <input type="checkbox" id="mConc" onchange="toggleConcField()" ${item.concluido ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;">
+                        <input type="checkbox" id="mConc" onchange="document.getElementById('mQtd').disabled = !this.checked" ${item.concluido ? 'checked' : ''}>
                         <label style="margin-bottom:0; color:#c53030;"><b>Curso concluído</b></label>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <div style="flex:1;"><label>Data de término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
-                        <div style="flex:1;"><label>Qtd de concluintes</label><input type="number" id="mQtd" value="${item.conc || ''}" ${item.concluido ? '' : 'disabled'}></div>
+                        <div style="flex:1;"><label>Data Término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
+                        <div style="flex:1;"><label>Qtd Concluintes</label><input type="number" id="mQtd" value="${item.conc || ''}" ${item.concluido ? '' : 'disabled'}></div>
                     </div>
-                    <div class="nota-auxiliar">
-                        <b>Nota:</b> O campo 'Qtd de concluintes' só será habilitado após marcar a caixa 'Curso concluído'.
-                    </div>
+                    <div class="nota-auxiliar"><b>Nota:</b> O campo de concluintes só abre ao marcar "Curso concluído".</div>
                 </div>`;
             } else {
                 campos.innerHTML = `
                 <div style="margin-bottom:10px;"><label>Nome do curso</label><input type="text" id="mNome" value="${item.nome}"></div>
                 <div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>Sala</label><input type="text" id="mSala" value="${item.sala || ''}"></div>
-                    <div style="flex:1;"><label>Alunos</label><input type="number" id="mAlunos" value="${item.alunos || ''}"></div>
+                    <div style="flex:1;"><label>Grau</label><select id="mGrau"><option>${item.grau}</option><option>Tecnólogo</option><option>Graduação</option><option>Pós-Graduação</option></select></div>
+                    <div style="flex:1;"><label>Período</label><select id="mPer"><option>${item.per}</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select></div>
                 </div>
-                <div><label>Data de término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <div style="flex:1;"><label>Sala</label><input type="number" id="mSala" value="${item.sala}" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+                    <div style="flex:1;"><label>Nº Alunos</label><input type="number" id="mAlunos" value="${item.alunos}" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+                </div>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div style="flex:1;"><label>Data Início</label><input type="date" id="mInicio" value="${item.inicio}"></div>
+                    <div style="flex:1;"><label>Data Término/Formatura</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
+                </div>
+                <div class="nota-auxiliar"><b>Ensino Superior:</b> Mantenha a data de término atualizada conforme o semestre ou conclusão do curso.</div>`;
             }
             document.getElementById('btnConfirmarModal').onclick = confirmEdicao;
             document.getElementById('modalGeral').style.display = 'flex';
@@ -337,44 +308,37 @@
         async function confirmEdicao() {
             const i = document.getElementById('editIdx').value;
             const tipo = document.getElementById('editTipo').value;
-            
             if(tipo === 'cursos') {
-                const isConc = document.getElementById('mConc').checked;
-                const qtdC = document.getElementById('mQtd').value;
-                const dataT = document.getElementById('mTermino').value;
-
                 db.cursos[i].nome = document.getElementById('mNome').value.toUpperCase();
                 db.cursos[i].tipo = document.getElementById('mTipo').value;
                 db.cursos[i].carga = document.getElementById('mCarga').value;
                 db.cursos[i].inicio = document.getElementById('mInicio').value;
                 db.cursos[i].part = document.getElementById('mPart').value;
-
-                if(isConc && (!dataT || !qtdC)) {
-                    alert("Para marcar como concluído, preencha a Data de Término e Concluintes!");
-                    return;
-                }
-
-                db.cursos[i].concluido = isConc;
-                db.cursos[i].termino = dataT;
-                db.cursos[i].conc = isConc ? qtdC : "";
+                db.cursos[i].concluido = document.getElementById('mConc').checked;
+                db.cursos[i].termino = document.getElementById('mTermino').value;
+                db.cursos[i].conc = db.cursos[i].concluido ? document.getElementById('mQtd').value : "";
             } else {
                 db.superior[i].nome = document.getElementById('mNome').value.toUpperCase();
+                db.superior[i].grau = document.getElementById('mGrau').value;
+                db.superior[i].per = document.getElementById('mPer').value;
                 db.superior[i].sala = document.getElementById('mSala').value;
                 db.superior[i].alunos = document.getElementById('mAlunos').value;
+                db.superior[i].inicio = document.getElementById('mInicio').value;
                 db.superior[i].termino = document.getElementById('mTermino').value;
             }
-            fecharModal();
-            await sincronizar();
+            fecharModal(); await sincronizar();
         }
 
-        async function remover(i, tipo) { if(confirm("Deseja realmente excluir este registro?")) { db[tipo].splice(i,1); await sincronizar(); } }
+        async function remover(i, tipo) { if(confirm("Deseja excluir?")) { db[tipo].splice(i,1); await sincronizar(); } }
         function fecharModal() { document.getElementById('modalGeral').style.display = 'none'; }
         
-        function limparForm(tipo) { 
-            const prefixo = tipo === 'cursos' ? 'cur' : 'sup';
-            document.querySelectorAll(`[id^="${prefixo}"]`).forEach(el => el.value = "");
-            if(tipo==='cursos') document.getElementById('curTipo').value = "";
-            else { document.getElementById('supGrau').value = ""; document.getElementById('supPer').value = ""; }
+        // FUNÇÃO DE LIMPAR CORRIGIDA
+        function limparForm(idSecao) { 
+            const container = document.getElementById(idSecao);
+            const campos = container.querySelectorAll('input, select');
+            campos.forEach(campo => {
+                campo.value = "";
+            });
         }
 
         async function sincronizar() {
