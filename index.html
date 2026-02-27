@@ -63,34 +63,43 @@
         .actions-bar { display: flex; gap: 10px; margin: 20px 0; align-items: center; flex-wrap: wrap; }
         .btn-std { padding: 12px 20px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
 
-        /* AJUSTE DO SCROLL PARA 8 LINHAS */
+        /* TABELA COM SCROLL PARA 8 LINHAS */
         .table-wrapper { 
             width: 100%; 
-            max-height: 440px; /* Altura ideal para exibir ~8 linhas + cabeçalho */
+            max-height: 460px; 
             overflow-y: auto; 
             border: 1px solid #ddd; 
             border-radius: 8px; 
-            background: #fff;
         }
         
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; }
         thead th { 
             position: sticky; top: 0; background: #f8f9fa; z-index: 10; 
             padding: 15px; border-bottom: 2px solid #dee2e6; text-align: center; 
             color: var(--dark); font-size: 0.85rem; 
         }
-        tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        tbody td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; }
         
-        /* Larguras das Colunas para manter simetria */
-        .col-n { width: 50px; }
-        .col-curso { width: 250px; text-align: left !important; }
-        .col-data { width: 110px; }
-
         .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 3px 6px; border-radius: 4px; font-weight: bold; margin-left: 8px; }
 
+        /* MODAL HARMONIZADO */
         #modalEdicao { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        
+        /* Ajuste do checkbox no modal */
+        .checkbox-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .checkbox-container input { width: auto; cursor: pointer; }
+        .checkbox-container span { font-weight: bold; color: var(--dark); font-size: 0.9rem; }
 
         footer { text-align: center; padding: 25px; color: #777; font-size: 0.9rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
@@ -98,7 +107,7 @@
 </head>
 <body>
 
-    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Sincronizando...</p></div>
+    <div id="loading"><i class="fa fa-spinner fa-spin fa-3x" style="color:var(--verde)"></i><p style="margin-top:10px; font-weight:bold;">Processando...</p></div>
 
     <div id="main-header">
         <span class="logo-placeholder">🎓</span>
@@ -120,7 +129,7 @@
         <div class="form-row">
             <div class="form-group" style="flex: 2;"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
             <div class="form-group"><label>TIPO *</label><select id="curTipo"><option value="">Selecione...</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
-            <div class="form-group"><label>CARGA HORÁRIA *</label><input type="text" id="curCarga" placeholder="Ex: 160h"></div>
+            <div class="form-group"><label>CARGA HORÁRIA *</label><input type="text" id="curCarga"></div>
         </div>
         <div class="form-row">
             <div class="form-group"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
@@ -129,7 +138,7 @@
 
         <div class="actions-bar">
             <button class="btn-std btn-verde" onclick="validarECadastrar()"><i class="fa fa-save"></i> Salvar Curso</button>
-            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 180px; padding: 10px; border-radius: 6px;">
+            <select id="filtroStatus" onchange="atualizarTabela()" style="max-width: 180px; padding: 10px;">
                 <option value="todos">Ver Todos</option>
                 <option value="ativos">Ativos</option>
                 <option value="concluidos">Concluídos</option>
@@ -140,12 +149,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="col-n">Nº</th>
-                        <th class="col-curso">CURSO</th>
+                        <th style="width: 50px;">Nº</th>
+                        <th style="text-align: left;">CURSO</th>
                         <th>TIPO</th>
                         <th>CARGA</th>
-                        <th class="col-data">INÍCIO</th>
-                        <th class="col-data">TÉRMINO</th>
+                        <th>INÍCIO</th>
+                        <th>TÉRMINO</th>
                         <th>PART.</th>
                         <th>CONC.</th>
                         <th>AÇÕES</th>
@@ -158,12 +167,27 @@
 
     <div id="modalEdicao">
         <div class="modal-content">
-            <h4 id="modalTitulo" style="margin-bottom:20px;">Finalizar Curso</h4>
+            <h4 id="modalTitulo" style="margin-bottom:20px; border-bottom: 2px solid var(--verde); padding-bottom: 10px;">Finalizar Curso</h4>
             <input type="hidden" id="editIndex">
-            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="checkConcluido"> <b>Curso Concluído?</b></label>
-            <div class="form-group" style="margin-bottom:15px;"><label>DATA TÉRMINO REAL</label><input type="date" id="curTerminoModal"></div>
-            <div class="form-group" style="margin-bottom:20px;"><label>QTD CONCLUINTES</label><input type="number" id="curConcModal"></div>
-            <div style="display:flex; gap:10px;"><button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Confirmar</button><button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button></div>
+            
+            <label class="checkbox-container">
+                <input type="checkbox" id="checkConcluido">
+                <span>Marcar como Concluído</span>
+            </label>
+
+            <div class="form-group" style="margin-bottom:15px;">
+                <label>DATA TÉRMINO REAL</label>
+                <input type="date" id="curTerminoModal">
+            </div>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label>QTD CONCLUINTES</label>
+                <input type="number" id="curConcModal" placeholder="0">
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="btn-std btn-verde" style="flex:1;" onclick="salvarAlteracoes()">Confirmar</button>
+                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
+            </div>
         </div>
     </div>
 
@@ -229,6 +253,7 @@
             const tbody = document.getElementById('listaCursos');
             const filtro = document.getElementById('filtroStatus').value;
             tbody.innerHTML = "";
+            
             bancoDados.forEach((c, i) => {
                 if(filtro === 'ativos' && c.concluido) return;
                 if(filtro === 'concluidos' && !c.concluido) return;
@@ -237,9 +262,12 @@
 
                 tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
                     <td>${i+1}</td>
-                    <td class="col-curso"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td>
+                    <td style="text-align: left;"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td>
                     <td>${c.tipo}</td><td>${c.carga}</td><td>${fmtD(c.inicio)}</td><td>${fmtD(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
-                    <td><button onclick="abrirModal(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button></td>
+                    <td>
+                        <button onclick="abrirModal(${i})" title="Editar/Concluir" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem; margin-right:8px;"><i class="fa fa-edit"></i></button>
+                        <button onclick="removerIndividual(${i})" title="Excluir" style="color:var(--vermelho); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-trash"></i></button>
+                    </td>
                 </tr>`;
             });
         }
@@ -260,13 +288,20 @@
             const dataT = document.getElementById('curTerminoModal').value;
             const qtd = document.getElementById('curConcModal').value;
 
-            if (conc && (!dataT || !qtd)) return alert("Preencha data e concluintes para finalizar.");
+            if (conc && (!dataT || !qtd)) return alert("Para concluir, preencha data e concluintes.");
 
             bancoDados[i].concluido = conc;
             bancoDados[i].termino = dataT;
             bancoDados[i].conc = conc ? qtd : "";
             fecharModal();
             await salvarNoGoogle();
+        }
+
+        async function removerIndividual(i) {
+            if(confirm("Deseja realmente excluir este curso?")) {
+                bancoDados.splice(i, 1);
+                await salvarNoGoogle();
+            }
         }
 
         function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; }
