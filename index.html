@@ -58,7 +58,6 @@
         /* --- CAMPOS COMPACTOS --- */
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
-        /* Larguras Específicas Ensino Superior */
         .fg-sup-nome { flex: 3; min-width: 250px; }
         .fg-sup-grau { width: 140px; }
         .fg-sup-inst { flex: 2; min-width: 200px; }
@@ -66,17 +65,11 @@
         .fg-sup-sala { width: 60px; }
         .fg-sup-alunos { width: 80px; }
 
-        /* Larguras Específicas Cursos */
-        .fg-cur-nome { flex: 3; min-width: 250px; }
-        .fg-cur-tipo { width: 180px; }
-        .fg-cur-carga { width: 100px; }
-        .fg-cur-data { width: 155px; }
-        .fg-cur-part { width: 100px; }
-
         label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
         input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; height: 38px; }
 
         .btn-std { padding: 10px 18px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; font-size: 0.9rem; }
+        .btn-limpar { background: #95a5a6; }
 
         .table-wrapper { 
             width: 100%; max-height: 440px; overflow-y: auto; 
@@ -91,6 +84,10 @@
         }
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; }
         
+        /* MODAL */
+        #modalSuperior { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 400px; }
+
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
     </style>
@@ -112,35 +109,10 @@
         <button class="card-btn btn-roxo" onclick="abrir('projetos')"><i class="fa fa-folder-open"></i>PROJETOS / JORNADA</button>
     </div>
 
-    <div id="cursos" class="content-card">
-        <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
-        <h3 style="color:var(--verde); margin-bottom:15px; font-size: 1.3rem;">Painel de Cursos</h3>
-        <div class="form-row">
-            <div class="form-group fg-cur-nome"><label>NOME DO CURSO *</label><input type="text" id="curNome"></div>
-            <div class="form-group fg-cur-tipo"><label>TIPO *</label>
-                <select id="curTipo">
-                    <option value="">Selecione...</option>
-                    <option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option>
-                </select>
-            </div>
-            <div class="form-group fg-cur-carga"><label>CARGA *</label><input type="text" id="curCarga"></div>
-            <div class="form-group fg-cur-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-part"><label>Nº PART. *</label><input type="number" id="curPart"></div>
-            <button class="btn-std btn-verde" style="height:38px;" onclick="validarECadastrarCursos()"><i class="fa fa-save"></i> Salvar</button>
-        </div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr><th>Nº</th><th>CURSO</th><th>TIPO</th><th>CARGA</th><th>INÍCIO</th><th>AÇÕES</th></tr>
-                </thead>
-                <tbody id="listaCursos"></tbody>
-            </table>
-        </div>
-    </div>
-
     <div id="superior" class="content-card">
         <button class="btn-voltar" onclick="voltarAoMenu()"><i class="fa fa-arrow-left"></i> Menu</button>
         <h3 style="color:var(--azul); margin-bottom:15px; font-size: 1.3rem;">Ensino Superior</h3>
+        
         <div class="form-row">
             <div class="form-group fg-sup-nome"><label>NOME DO CURSO *</label><input type="text" id="supNome" placeholder="Ex: DIREITO"></div>
             <div class="form-group fg-sup-grau"><label>GRAU *</label>
@@ -158,8 +130,11 @@
             </div>
             <div class="form-group fg-sup-sala"><label>SALA *</label><input type="text" id="supSala" maxlength="1"></div>
             <div class="form-group fg-sup-alunos"><label>ALUNOS *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+            
             <button class="btn-std btn-azul" style="height:38px;" onclick="validarECadastrarSuperior()"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn-std btn-limpar" style="height:38px;" onclick="limparSup()"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
+
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -171,7 +146,7 @@
                         <th style="width: 120px;">PERÍODO</th>
                         <th style="width: 60px;">SALA</th>
                         <th style="width: 60px;">ALUNOS</th>
-                        <th style="width: 80px;">AÇÕES</th>
+                        <th style="width: 100px;">AÇÕES</th>
                     </tr>
                 </thead>
                 <tbody id="listaSuperior"></tbody>
@@ -179,18 +154,31 @@
         </div>
     </div>
 
+    <div id="modalSuperior">
+        <div class="modal-content">
+            <h4 style="margin-bottom:15px; border-bottom: 2px solid var(--azul); padding-bottom:5px;">Editar Curso Superior</h4>
+            <input type="hidden" id="editSupIndex">
+            <div style="margin-bottom:10px;"><label>NOME DO CURSO</label><input type="text" id="editSupNome"></div>
+            <div style="margin-bottom:10px;"><label>SALA</label><input type="text" id="editSupSala" maxlength="1"></div>
+            <div style="margin-bottom:15px;"><label>Nº ALUNOS</label><input type="number" id="editSupAlunos"></div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-std btn-azul" style="flex:1;" onclick="salvarEdicaoSuperior()">Salvar</button>
+                <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModalSup()">Sair</button>
+            </div>
+        </div>
+    </div>
+
     <footer>Idealizado por: <b>Allan Ramos | Policial Penal | CPP II de Bauru</b></footer>
 
     <script>
         const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyIGkx30aKhlB1xMkHsKNL_yd9i3zE3D3KxH1jr_RWruxyNHT_DwTIVCE2T95AzBqsc0w/exec"; 
-        let dbCursos = [];
         let dbSuperior = [];
 
         async function abrir(id) { 
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('main-header').style.display = 'none';
             document.getElementById(id).classList.add('active'); 
-            await carregarDados();
+            if(id === 'superior') await carregarSuperior();
         }
 
         function voltarAoMenu() { 
@@ -199,7 +187,7 @@
             document.getElementById('main-header').style.display = 'block';
         }
 
-        // --- FUNÇÕES ENSINO SUPERIOR ---
+        // --- LÓGICA ENSINO SUPERIOR ---
         async function validarECadastrarSuperior() {
             const dados = {
                 nome: document.getElementById('supNome').value.toUpperCase(),
@@ -211,7 +199,7 @@
             };
             if (Object.values(dados).some(v => !v)) return alert("Preencha todos os campos!");
             dbSuperior.push(dados);
-            await salvarGeral();
+            await salvarSuperior();
             limparSup();
         }
 
@@ -223,37 +211,58 @@
                     <td>${i+1}</td>
                     <td style="text-align: left;"><b>${c.nome}</b></td>
                     <td>${c.grau}</td><td>${c.inst}</td><td>${c.per}</td><td>${c.sala}</td><td>${c.alunos}</td>
-                    <td><button onclick="removerSuperior(${i})" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td>
+                    <td>
+                        <button onclick="abrirModalSup(${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer; font-size:1.1rem; margin-right:8px;"><i class="fa fa-edit"></i></button>
+                        <button onclick="removerSuperior(${i})" style="color:var(--vermelho); border:none; background:none; cursor:pointer; font-size:1.1rem;"><i class="fa fa-trash"></i></button>
+                    </td>
                 </tr>`;
             });
         }
 
-        async function removerSuperior(i) {
-            if(confirm("Excluir registro?")) { dbSuperior.splice(i,1); await salvarGeral(); }
+        function abrirModalSup(i) {
+            const c = dbSuperior[i];
+            document.getElementById('editSupIndex').value = i;
+            document.getElementById('editSupNome').value = c.nome;
+            document.getElementById('editSupSala').value = c.sala;
+            document.getElementById('editSupAlunos').value = c.alunos;
+            document.getElementById('modalSuperior').style.display = 'flex';
         }
 
+        async function salvarEdicaoSuperior() {
+            const i = document.getElementById('editSupIndex').value;
+            dbSuperior[i].nome = document.getElementById('editSupNome').value.toUpperCase();
+            dbSuperior[i].sala = document.getElementById('editSupSala').value;
+            dbSuperior[i].alunos = document.getElementById('editSupAlunos').value;
+            fecharModalSup();
+            await salvarSuperior();
+        }
+
+        async function removerSuperior(i) {
+            if(confirm("Deseja excluir este registro?")) { dbSuperior.splice(i,1); await salvarSuperior(); }
+        }
+
+        function fecharModalSup() { document.getElementById('modalSuperior').style.display = 'none'; }
         function limparSup() { ['supNome','supInst','supSala','supAlunos'].forEach(id => document.getElementById(id).value=""); document.getElementById('supGrau').value=""; document.getElementById('supPer').value=""; }
 
-        // --- COMUNICAÇÃO GOOGLE ---
-        async function salvarGeral() {
+        // --- GOOGLE ---
+        async function salvarSuperior() {
             document.getElementById('loading').style.display = 'flex';
-            const payload = { acao: 'salvarTudo', cursos: dbCursos, superior: dbSuperior };
             try {
-                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                // Aqui você usaria o mesmo URL_SCRIPT, o doPost do Google cuidará de identificar os dados
+                await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', superior: dbSuperior, cursos: [] }) });
                 atualizarTabelaSuperior();
             } catch (e) { console.error(e); }
             document.getElementById('loading').style.display = 'none';
         }
 
-        async function carregarDados() {
+        async function carregarSuperior() {
             document.getElementById('loading').style.display = 'flex';
             try {
                 const res = await fetch(URL_SCRIPT);
                 const data = await res.json();
-                dbCursos = data.cursos || [];
                 dbSuperior = data.superior || [];
                 atualizarTabelaSuperior();
-            } catch (e) { console.log("Erro de conexão."); }
+            } catch (e) { console.log("Erro ao carregar."); }
             document.getElementById('loading').style.display = 'none';
         }
     </script>
