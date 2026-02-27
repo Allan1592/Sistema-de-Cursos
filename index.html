@@ -9,6 +9,7 @@
         :root { 
             --verde: #2d9344; --laranja: #e67e22; --azul: #3498db; --roxo: #8b5cf6;
             --vermelho: #d32f2f; --cinza-claro: #f4f7f6; --dark: #2c3e50;
+            --rosa-suave: #ffe4e6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,7 +58,6 @@
 
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
-        /* Ajustes de largura Form */
         .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
         .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
         .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 140px; }
@@ -75,15 +75,15 @@
         thead th { position: sticky; top: 0; background: #f8f9fa; z-index: 10; padding: 12px; border-bottom: 2px solid #dee2e6; text-align: center; color: var(--dark); font-size: 0.75rem; }
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
         
-        /* Espaçamento entre botões de ação */
-        .btn-acao { background: none; border: none; cursor: pointer; font-size: 1.1rem; margin: 0 10px; transition: 0.2s; }
-        .btn-acao:hover { transform: scale(1.2); }
+        .btn-acao { background: none; border: none; cursor: pointer; font-size: 1.1rem; margin: 0 12px; transition: 0.2s; }
 
-        .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px;}
+        .linha-concluida { background-color: var(--rosa-suave) !important; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; font-weight: bold; margin-left: 8px;}
 
         #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 420px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+
+        .nota-auxiliar { font-size: 0.7rem; color: #555; background: #fff9c4; padding: 8px; border-radius: 4px; border-left: 4px solid #fbc02d; margin-top: 10px; line-height: 1.2; }
 
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
@@ -215,8 +215,11 @@
             tbody.innerHTML = "";
             db[tipo].forEach((c, i) => {
                 if(tipo === 'cursos') {
+                    // Se concluintes for 0 ou vazio, deixa em branco
+                    const concluintesExibir = (c.conc && c.conc != "0") ? c.conc : "";
+                    
                     tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${concluintesExibir}</td>
                         <td><button class="btn-acao" onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja);"><i class="fa fa-edit"></i></button>
                         <button class="btn-acao" onclick="remover(${i}, 'cursos')" style="color:var(--vermelho);"><i class="fa fa-trash"></i></button></td></tr>`;
                 } else {
@@ -237,12 +240,10 @@
                 const i = document.getElementById('curInicio').value;
                 const p = document.getElementById('curPart').value;
 
-                // Validação: Garante que todos os dados foram preenchidos
                 if(!n || !t || !c || !i || !p) {
                     alert("Atenção: Todos os campos da seção de Cursos são obrigatórios!");
                     return;
                 }
-
                 item = { nome: n.toUpperCase(), tipo: t, carga: c, inicio: i, part: p, termino: "", conc: "", concluido: false };
             } else {
                 item = { 
@@ -262,6 +263,13 @@
             limparForm(tipo);
         }
 
+        function toggleConcField() {
+            const check = document.getElementById('mConc').checked;
+            const inputQtd = document.getElementById('mQtd');
+            inputQtd.disabled = !check;
+            if(!check) inputQtd.value = "";
+        }
+
         function abrirEdicao(tipo, i) {
             const item = db[tipo][i];
             document.getElementById('editIdx').value = i;
@@ -270,25 +278,36 @@
             const campos = document.getElementById('camposEdicao');
             
             if(tipo === 'cursos') {
-                // Trazendo informações existentes do curso para o usuário
                 campos.innerHTML = `
-                <div style="background:#f9f9f9; padding:10px; border-radius:8px; display:flex; align-items:center; gap:10px; margin-bottom:15px; border: 1px solid #ddd;">
-                    <input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:18px; height:18px;">
-                    <label style="margin-bottom:0">Curso Concluído</label>
+                <div style="margin-bottom:10px;"><label>Nome do curso</label><input type="text" id="mNome" value="${item.nome}"></div>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <div style="flex:1;"><label>Tipo</label><select id="mTipo"><option>${item.tipo}</option><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
+                    <div style="flex:1;"><label>Carga horária</label><input type="text" id="mCarga" value="${item.carga}"></div>
                 </div>
-                <div style="margin-bottom:10px;">
-                    <label>Data de término real *</label>
-                    <input type="date" id="mTermino" value="${item.termino || ''}">
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div style="flex:1;"><label>Data de início</label><input type="date" id="mInicio" value="${item.inicio}"></div>
+                    <div style="flex:1;"><label>Participantes</label><input type="number" id="mPart" value="${item.part}"></div>
                 </div>
-                <div>
-                    <label>Quantidade de concluintes *</label>
-                    <input type="number" id="mQtd" value="${item.conc || ''}">
-                </div>
-                <p style="font-size: 0.65rem; color: #666; margin-top: 15px;">* Nota: Para salvar alterações em Cursos, o checkbox 'Curso Concluído' deve estar marcado.</p>`;
+                <hr style="margin: 15px 0; border: 0.5px solid #eee;">
+                <div style="background:#fdf2f2; padding:12px; border-radius:8px; border: 1px solid #feb2b2; margin-bottom:10px;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                        <input type="checkbox" id="mConc" onchange="toggleConcField()" ${item.concluido ? 'checked' : ''} style="width:20px; height:20px; cursor:pointer;">
+                        <label style="margin-bottom:0; color:#c53030;"><b>Curso concluído</b></label>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <div style="flex:1;"><label>Data de término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
+                        <div style="flex:1;"><label>Qtd de concluintes</label><input type="number" id="mQtd" value="${item.conc || ''}" ${item.concluido ? '' : 'disabled'}></div>
+                    </div>
+                    <div class="nota-auxiliar">
+                        <b>Nota:</b> O campo 'Qtd de concluintes' só será habilitado após marcar a caixa 'Curso concluído'.
+                    </div>
+                </div>`;
             } else {
-                campos.innerHTML = `<div style="display:flex; gap:10px; margin-bottom:10px;">
-                    <div style="flex:1;"><label>Número da sala</label><input type="text" id="mSala" value="${item.sala || ''}"></div>
-                    <div style="flex:1;"><label>Número de alunos</label><input type="number" id="mAlunos" value="${item.alunos || ''}"></div>
+                campos.innerHTML = `
+                <div style="margin-bottom:10px;"><label>Nome do curso</label><input type="text" id="mNome" value="${item.nome}"></div>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <div style="flex:1;"><label>Sala</label><input type="text" id="mSala" value="${item.sala || ''}"></div>
+                    <div style="flex:1;"><label>Alunos</label><input type="number" id="mAlunos" value="${item.alunos || ''}"></div>
                 </div>
                 <div><label>Data de término</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
             }
@@ -302,30 +321,27 @@
             
             if(tipo === 'cursos') {
                 const isConc = document.getElementById('mConc').checked;
-                const dataT = document.getElementById('mTermino').value;
                 const qtdC = document.getElementById('mQtd').value;
+                const dataT = document.getElementById('mTermino').value;
 
-                // Regra 1: Não permite editar/salvar sem marcar o checkbox
-                if(!isConc) {
-                    alert("A edição de cursos só é permitida mediante a marcação do campo 'Curso Concluído'.");
-                    return;
-                }
+                // Salva informações básicas (sempre permitido)
+                db.cursos[i].nome = document.getElementById('mNome').value.toUpperCase();
+                db.cursos[i].tipo = document.getElementById('mTipo').value;
+                db.cursos[i].carga = document.getElementById('mCarga').value;
+                db.cursos[i].inicio = document.getElementById('mInicio').value;
+                db.cursos[i].part = document.getElementById('mPart').value;
 
-                // Regra 2: Não permite salvar quantidade de concluintes sem marcar a caixa (Reforço)
-                if(qtdC > 0 && !isConc) {
-                    alert("Erro: Você não pode definir concluintes sem marcar a caixa 'Curso Concluído'.");
-                    return;
-                }
-
-                if(!dataT || !qtdC) {
-                    alert("Erro: Informe a Data de Término e a Quantidade de Concluintes para salvar!");
+                // Validação de conclusão
+                if(isConc && (!dataT || !qtdC)) {
+                    alert("Para marcar como concluído, preencha a Data de Término e Concluintes!");
                     return;
                 }
 
                 db.cursos[i].concluido = isConc;
                 db.cursos[i].termino = dataT;
-                db.cursos[i].conc = qtdC;
+                db.cursos[i].conc = isConc ? qtdC : "";
             } else {
+                db.superior[i].nome = document.getElementById('mNome').value.toUpperCase();
                 db.superior[i].sala = document.getElementById('mSala').value;
                 db.superior[i].alunos = document.getElementById('mAlunos').value;
                 db.superior[i].termino = document.getElementById('mTermino').value;
@@ -349,7 +365,7 @@
             try {
                 await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', cursos: db.cursos, superior: db.superior }) });
                 atualizarTabela('cursos'); atualizarTabela('superior');
-            } catch (e) { alert("Erro ao sincronizar com o Google Planilhas."); }
+            } catch (e) { alert("Erro ao sincronizar."); }
             document.getElementById('loading').style.display = 'none';
         }
     </script>
