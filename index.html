@@ -57,21 +57,12 @@
 
         .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: flex-end; }
         
-        /* Ajustes de largura Cursos */
-        .fg-cur-nome { flex: 3; min-width: 250px; }
-        .fg-cur-tipo { width: 180px; }
-        .fg-cur-carga { width: 100px; }
-        .fg-cur-data { width: 155px; }
-        .fg-cur-part { width: 100px; }
-
-        /* Ajustes de largura Superior */
-        .fg-sup-nome { flex: 2; min-width: 200px; }
-        .fg-sup-grau { width: 130px; }
-        .fg-sup-inst { flex: 1.5; min-width: 180px; }
-        .fg-sup-per { width: 120px; }
+        /* Ajustes de largura Form */
+        .fg-cur-nome, .fg-sup-nome { flex: 3; min-width: 250px; }
+        .fg-cur-tipo, .fg-sup-grau, .fg-sup-inst { flex: 1.5; min-width: 150px; }
+        .fg-cur-carga, .fg-sup-per, .fg-sup-data { width: 130px; }
         .fg-sup-sala { width: 55px; }
         .fg-sup-alunos { width: 75px; }
-        .fg-sup-data { width: 145px; }
 
         label { display: block; font-size: 0.72rem; font-weight: bold; margin-bottom: 4px; color: var(--dark); }
         input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.82rem; height: 38px; }
@@ -85,10 +76,10 @@
         tbody td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.82rem; }
         
         .linha-concluida { background-color: #fff1f2 !important; }
-        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; }
+        .badge-concluido { background: var(--vermelho); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; font-weight: bold; margin-left: 5px;}
 
         #modalGeral { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
         footer { text-align: center; padding: 15px; color: #777; font-size: 0.8rem; margin-top: auto; }
         #loading { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:3000; justify-content:center; align-items:center; flex-direction:column; }
@@ -121,7 +112,7 @@
             </div>
             <div class="form-group fg-cur-carga"><label>CARGA *</label><input type="text" id="curCarga"></div>
             <div class="form-group fg-cur-data"><label>DATA INÍCIO *</label><input type="date" id="curInicio"></div>
-            <div class="form-group fg-cur-part"><label>Nº PART. *</label><input type="number" id="curPart"></div>
+            <div class="form-group fg-cur-data" style="width: 80px;"><label>Nº PART. *</label><input type="number" id="curPart"></div>
             <button class="btn-std btn-verde" style="height:38px;" onclick="salvarNovo('cursos')"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('cursos')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
@@ -147,9 +138,9 @@
             <div class="form-group fg-sup-per"><label>PERÍODO *</label>
                 <select id="supPer"><option value="">Selecione...</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
             </div>
-            <div class="form-group fg-sup-sala"><label>SALA *</label><input type="text" id="supSala" maxlength="1"></div>
-            <div class="form-group fg-sup-alunos"><label>ALUNOS *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
-            <div class="form-group fg-sup-data"><label>DATA INÍCIO *</label><input type="date" id="supInicio"></div>
+            <div class="form-group fg-sup-sala"><label>SL *</label><input type="text" id="supSala" maxlength="1"></div>
+            <div class="form-group fg-sup-alunos"><label>AL *</label><input type="number" id="supAlunos" oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"></div>
+            <div class="form-group fg-sup-data"><label>INÍCIO *</label><input type="date" id="supInicio"></div>
             <button class="btn-std btn-azul" style="height:38px;" onclick="salvarNovo('superior')"><i class="fa fa-save"></i> Salvar</button>
             <button class="btn-std btn-limpar" style="height:38px;" onclick="limparForm('superior')"><i class="fa fa-eraser"></i> Limpar</button>
         </div>
@@ -168,7 +159,7 @@
             <h4 id="modalTitulo" style="margin-bottom:15px; border-bottom: 2px solid var(--dark); padding-bottom:5px;">Editar</h4>
             <input type="hidden" id="editIdx"><input type="hidden" id="editTipo">
             <div id="camposEdicao"></div>
-            <div style="display:flex; gap:10px; margin-top:15px;">
+            <div style="display:flex; gap:10px; margin-top:20px;">
                 <button class="btn-std" id="btnConfirmarModal" style="flex:1; background:var(--verde)">Confirmar</button>
                 <button class="btn-std" style="flex:1; background:#666;" onclick="fecharModal()">Sair</button>
             </div>
@@ -210,7 +201,7 @@
                 db.superior = data.superior || [];
                 atualizarTabela('cursos');
                 atualizarTabela('superior');
-            } catch (e) { console.log("Erro ao carregar dados."); }
+            } catch (e) { console.log("Erro ao carregar."); }
             document.getElementById('loading').style.display = 'none';
         }
 
@@ -221,7 +212,7 @@
             db[tipo].forEach((c, i) => {
                 if(tipo === 'cursos') {
                     tbody.innerHTML += `<tr class="${c.concluido ? 'linha-concluida' : ''}">
-                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b></td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
+                        <td>${i+1}</td><td style="text-align:left"><b>${c.nome}</b>${c.concluido ? '<span class="badge-concluido">CONC.</span>' : ''}</td><td>${c.tipo}</td><td>${c.carga}</td><td>${tratarData(c.inicio)}</td><td>${tratarData(c.termino)}</td><td>${c.part}</td><td>${c.conc || '0'}</td>
                         <td><button onclick="abrirEdicao('cursos', ${i})" style="color:var(--laranja); border:none; background:none; cursor:pointer;"><i class="fa fa-edit"></i></button>
                         <button onclick="remover(${i}, 'cursos')" style="color:var(--vermelho); border:none; background:none; cursor:pointer;"><i class="fa fa-trash"></i></button></td></tr>`;
                 } else {
@@ -254,13 +245,18 @@
             const campos = document.getElementById('camposEdicao');
             
             if(tipo === 'cursos') {
-                campos.innerHTML = `<label>CONCLUÍDO?</label><input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:20px; height:20px; margin-bottom:10px;"><br>
-                <label>DATA TÉRMINO</label><input type="date" id="mTermino" value="${item.termino || ''}"><br>
-                <label>QTD CONCLUINTES</label><input type="number" id="mQtd" value="${item.conc || ''}">`;
+                campos.innerHTML = `<div style="background:#f9f9f9; padding:10px; border-radius:8px; display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                    <input type="checkbox" id="mConc" ${item.concluido ? 'checked' : ''} style="width:18px; height:18px;">
+                    <label style="margin-bottom:0">MARCAR COMO CONCLUÍDO</label>
+                </div>
+                <div style="margin-bottom:10px;"><label>DATA TÉRMINO REAL *</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>
+                <div><label>QTD CONCLUINTES *</label><input type="number" id="mQtd" value="${item.conc || ''}"></div>`;
             } else {
-                campos.innerHTML = `<label>SALA</label><input type="text" id="mSala" value="${item.sala}" maxlength="1"><br>
-                <label>Nº ALUNOS</label><input type="number" id="mAlunos" value="${item.alunos}"><br>
-                <label>DATA TÉRMINO</label><input type="date" id="mTermino" value="${item.termino || ''}">`;
+                campos.innerHTML = `<div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <div style="flex:1;"><label>SALA</label><input type="text" id="mSala" value="${item.sala}" maxlength="1"></div>
+                    <div style="flex:1;"><label>Nº ALUNOS</label><input type="number" id="mAlunos" value="${item.alunos}"></div>
+                </div>
+                <div><label>DATA TÉRMINO (FORMATURA/FIM SEMESTRE)</label><input type="date" id="mTermino" value="${item.termino || ''}"></div>`;
             }
             document.getElementById('btnConfirmarModal').onclick = confirmEdicao;
             document.getElementById('modalGeral').style.display = 'flex';
@@ -269,10 +265,19 @@
         async function confirmEdicao() {
             const i = document.getElementById('editIdx').value;
             const tipo = document.getElementById('editTipo').value;
+            
             if(tipo === 'cursos') {
-                db.cursos[i].concluido = document.getElementById('mConc').checked;
-                db.cursos[i].termino = document.getElementById('mTermino').value;
-                db.cursos[i].conc = document.getElementById('mQtd').value;
+                const isConc = document.getElementById('mConc').checked;
+                const dataT = document.getElementById('mTermino').value;
+                const qtdC = document.getElementById('mQtd').value;
+
+                if(isConc && (!dataT || !qtdC)) {
+                    alert("Para concluir o curso, preencha a Data de Término e a Qtd de Concluintes!");
+                    return;
+                }
+                db.cursos[i].concluido = isConc;
+                db.cursos[i].termino = dataT;
+                db.cursos[i].conc = isConc ? qtdC : "";
             } else {
                 db.superior[i].sala = document.getElementById('mSala').value;
                 db.superior[i].alunos = document.getElementById('mAlunos').value;
@@ -287,6 +292,8 @@
         function limparForm(tipo) { 
             const prefixo = tipo === 'cursos' ? 'cur' : 'sup';
             document.querySelectorAll(`[id^="${prefixo}"]`).forEach(el => el.value = "");
+            if(tipo==='cursos') document.getElementById('curTipo').value = "";
+            else { document.getElementById('supGrau').value = ""; document.getElementById('supPer').value = ""; }
         }
 
         async function sincronizar() {
@@ -294,7 +301,7 @@
             try {
                 await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ acao: 'salvarTudo', cursos: db.cursos, superior: db.superior }) });
                 atualizarTabela('cursos'); atualizarTabela('superior');
-            } catch (e) { alert("Erro ao salvar."); }
+            } catch (e) { alert("Erro ao salvar no Google."); }
             document.getElementById('loading').style.display = 'none';
         }
     </script>
