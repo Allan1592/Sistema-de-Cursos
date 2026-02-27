@@ -1,1 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Ensino - CPP II Bauru</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #d1d5db; 
+            display: flex; flex-direction: column; align-items: center; 
+            height: 100vh; overflow: hidden; 
+        }
 
+        #main-header { text-align: center; margin-top: 20px; margin-bottom: 30px; flex-shrink: 0; }
+        .logo-placeholder { width: 60px; height: 60px; background: #1a1c2c; border-radius: 12px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); font-size: 1.5rem; color: white; }
+        h2 { color: #1a1c2c; font-size: 1.8rem; }
+        .subtitle { color: #6b7280; font-size: 0.9rem; margin-top: 5px; }
+
+        #main-menu { display: flex; justify-content: center; gap: 12px; width: 100%; max-width: 900px; flex-shrink: 0; }
+        .card-btn { flex: 1; height: 75px; border: none; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: 0.2s; }
+        .btn-verde { background: linear-gradient(135deg, #4d925d, #2f5a3a); }
+        .btn-laranja { background: linear-gradient(135deg, #d28531, #965a1d); }
+        .btn-azul { background: linear-gradient(135deg, #4e7bad, #2d4a6e); }
+        .btn-roxo { background: linear-gradient(135deg, #8b5cf6, #5b21b6); }
+
+        .btn-voltar-box { background: #e5e7eb; border: 1px solid #d1d5db; color: #374151; padding: 8px 15px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; }
+
+        .content-card { 
+            width: 98%; max-width: 1300px; background: white; border-radius: 20px; 
+            padding: 20px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            max-height: 85vh; position: fixed; top: 20px; z-index: 50;
+            flex-direction: column;
+        }
+        .active { display: flex; }
+
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 130px; }
+        label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.85rem; }
+        input:disabled { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+
+        .actions-bar { display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-end; }
+        .btn-action { padding: 10px 18px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; }
+        .btn-limpar-tudo { background: #dc2626; margin-left: auto; }
+        
+        .table-container { flex-grow: 1; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        
+        /* Ajuste de Alinhamento Centralizado */
+        thead th, tbody td { 
+            padding: 12px 10px; 
+            text-align: center; /* Centraliza tudo por padrão */
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Mantém a coluna do Nome alinhada à esquerda */
+        thead th:nth-child(2), tbody td:nth-child(2) { 
+            text-align: left; 
+        }
+
+        thead th { position: sticky; top: 0; background: #f8fafc; color: #2f5a3a; font-size: 0.75rem; border-bottom: 2px solid #e2e8f0; z-index: 1; }
+        
+        .linha-concluida { background-color: #fff1f2 !important; }
+        .badge-concluido { background: #e11d48; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 5px; }
+
+        #modalEdicao { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .footer { position: absolute; bottom: 15px; width: 100%; text-align: center; color: #6b7280; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div id="main-header">
+        <div class="logo-placeholder">🎓</div>
+        <h2>Gestão de Ensino</h2>
+        <div class="subtitle">CPP II "Dr. Eduardo de Oliveira Vianna" de Bauru</div>
+    </div>
+
+    <div id="main-menu">
+        <button class="card-btn btn-verde" onclick="abrir('cursos')">📝<span>Cursos</span></button>
+        <button class="card-btn btn-laranja" onclick="abrir('regular')">🏫<span>Ensino Regular</span></button>
+        <button class="card-btn btn-azul" onclick="abrir('superior')">🎓<span>Ensino Superior</span></button>
+        <button class="card-btn btn-roxo" onclick="abrir('projetos')">📂<span>Projetos / Jornada</span></button>
+    </div>
+
+    <div id="cursos" class="content-card">
+        <div><button class="btn-voltar-box" onclick="voltarAoMenu()">⬅ Menu</button></div>
+        <h3 style="color:#2f5a3a; margin-bottom:15px; border-bottom: 1px solid #eee;">Painel de Cursos</h3>
+        
+        <div class="form-row">
+            <div class="form-group" style="flex: 2;"><label>Nome do Curso</label><input type="text" id="curNome"></div>
+            <div class="form-group"><label>Tipo</label><select id="curTipo"><option>Profissionalizante</option><option>PROET</option><option>TELEPORT</option><option>Cultural</option><option>Lazer</option></select></div>
+            <div class="form-group"><label>Carga H.</label><input type="text" id="curCarga"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label>Início</label><input type="date" id="curInicio"></div>
+            <div class="form-group"><label>Término</label><input type="text" id="curTermino" value="Editar após conclusão" disabled></div>
+            <div class="form-group"><label>Participantes</label><input type="number" id="curPart"></div>
+        </div>
+
+        <div class="actions-bar">
+            <button class="btn-action btn-verde" onclick="cadastrarCurso()">+ Cadastrar</button>
+            <div class="form-group" style="max-width: 200px; min-width: 150px;">
+                <label>Filtrar por Status</label>
+                <select id="filtroStatus" onchange="atualizarTabela()">
+                    <option value="todos">Todos os Cursos</option>
+                    <option value="ativos">Apenas Ativos</option>
+                    <option value="concluidos">Apenas Concluídos</option>
+                </select>
+            </div>
+            <button class="btn-action btn-limpar-tudo" onclick="limparTudo()">Limpar Tudo</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Curso</th>
+                        <th>Tipo</th>
+                        <th>Carga</th>
+                        <th>Início</th>
+                        <th>Término</th>
+                        <th>Part.</th>
+                        <th>Conc.</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaCursos"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalEdicao">
+        <div class="modal-content">
+            <h4 id="modalTitulo" style="margin-bottom:15px;">Finalizar Curso</h4>
+            <input type="hidden" id="editIndex">
+            
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;">
+                <input type="checkbox" id="checkConcluido" style="width:20px; height:20px;"> <strong>Curso Concluído?</strong>
+            </label>
+
+            <div class="form-group" style="margin-bottom:15px;">
+                <label>Data de Término Real</label>
+                <input type="date" id="curTerminoModal">
+            </div>
+
+            <div class="form-group" style="margin-bottom:20px;">
+                <label>Quantidade de Concluintes</label>
+                <input type="number" id="curConcModal" placeholder="Digite a quantidade">
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="btn-verde" style="flex:1; padding:10px; border:none; border-radius:8px; color:white; font-weight:bold; cursor:pointer;" onclick="salvarAlteracoes()">Salvar</button>
+                <button style="flex:1; border:none; border-radius:8px; background:#e5e7eb; cursor:pointer;" onclick="fecharModal()">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">Idealizado por: Allan Ramos | Policial Penal | CPP II de Bauru</div>
+
+    <script>
+        let bancoDados = [];
+
+        function abrir(id) { document.getElementById(id).classList.add('active'); }
+        function voltarAoMenu() { document.querySelectorAll('.content-card').forEach(c => c.classList.remove('active')); }
+
+        function formatarDataBR(dataISO) {
+            if (!dataISO) return "---";
+            const partes = dataISO.split("-");
+            if (partes.length !== 3) return dataISO;
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
+        function cadastrarCurso() {
+            const nomeCurso = document.getElementById('curNome').value.trim();
+            if(!nomeCurso) return alert("Digite o nome do curso.");
+            const curso = {
+                nome: nomeCurso.toUpperCase(),
+                tipo: document.getElementById('curTipo').value,
+                carga: document.getElementById('curCarga').value,
+                inicio: document.getElementById('curInicio').value,
+                termino: "", 
+                part: document.getElementById('curPart').value,
+                conc: "", concluido: false
+            };
+            bancoDados.push(curso);
+            atualizarTabela();
+            limparForm();
+        }
+
+        function atualizarTabela() {
+            const tbody = document.getElementById('listaCursos');
+            const filtro = document.getElementById('filtroStatus').value;
+            tbody.innerHTML = "";
+            bancoDados.forEach((c, i) => {
+                if(filtro === 'ativos' && c.concluido) return;
+                if(filtro === 'concluidos' && !c.concluido) return;
+                const classe = c.concluido ? 'linha-concluida' : '';
+                const badge = c.concluido ? '<span class="badge-concluido">CONCLUÍDO</span>' : '';
+                tbody.innerHTML += `<tr class="${classe}">
+                    <td>${i+1}</td>
+                    <td><strong>${c.nome}</strong>${badge}</td>
+                    <td>${c.tipo}</td>
+                    <td>${c.carga}</td>
+                    <td>${formatarDataBR(c.inicio)}</td>
+                    <td>${formatarDataBR(c.termino)}</td>
+                    <td>${c.part || '0'}</td>
+                    <td>${c.conc || '0'}</td>
+                    <td>
+                        <button onclick="abrirModal(${i})" style="border:none; background:none; cursor:pointer; font-size:1.1rem;">✏️</button>
+                        <button onclick="removerIndividual(${i})" style="border:none; background:none; cursor:pointer; font-size:1.1rem; margin-left:8px;">🗑️</button>
+                    </td>
+                </tr>`;
+            });
+        }
+
+        function limparTudo() {
+            if(bancoDados.length === 0) return;
+            if(confirm("Confirma a exclusão de TODOS os registros?")) {
+                bancoDados = []; atualizarTabela();
+            }
+        }
+
+        function removerIndividual(i) {
+            if(confirm("Excluir este curso?")) {
+                bancoDados.splice(i, 1); atualizarTabela();
+            }
+        }
+
+        function abrirModal(i) {
+            const c = bancoDados[i];
+            document.getElementById('editIndex').value = i;
+            document.getElementById('modalTitulo').innerText = c.nome;
+            document.getElementById('checkConcluido').checked = c.concluido;
+            document.getElementById('curTerminoModal').value = c.termino;
+            document.getElementById('curConcModal').value = (c.conc === "" || c.conc === 0) ? "" : c.conc;
+            document.getElementById('modalEdicao').style.display = 'flex';
+        }
+
+        function fecharModal() { document.getElementById('modalEdicao').style.display = 'none'; }
+
+        function salvarAlteracoes() {
+            const i = document.getElementById('editIndex').value;
+            const isChecked = document.getElementById('checkConcluido').checked;
+            const dataTermino = document.getElementById('curTerminoModal').value;
+            const qtdConc = document.getElementById('curConcModal').value;
+
+            if(isChecked && !dataTermino) { alert("Informe a data de término para concluir."); return; }
+            if(qtdConc > 0 && !isChecked) { alert("Marque o seletor 'Curso Concluído?'"); return; }
+            if(isChecked && (qtdConc === "" || qtdConc < 0)) { alert("Informe a quantidade de concluintes."); return; }
+            
+            bancoDados[i].concluido = isChecked;
+            bancoDados[i].termino = dataTermino;
+            bancoDados[i].conc = isChecked ? qtdConc : "";
+            
+            atualizarTabela(); fecharModal();
+        }
+
+        function limparForm() {
+            document.getElementById('curNome').value = "";
+            document.getElementById('curCarga').value = "";
+            document.getElementById('curInicio').value = "";
+            document.getElementById('curPart').value = "";
+            document.getElementById('curTipo').selectedIndex = 0;
+        }
+    </script>
+</body>
+</html>
